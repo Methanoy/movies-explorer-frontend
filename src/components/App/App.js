@@ -1,11 +1,11 @@
-import '../../vendor/normalize.css';
+import '../../index.css';
 import './App.css';
 import Main from '../Main/Main';
 
 function App() {
   
   return (
-    <div className="App">
+    <div className="app">
       <Main />
     </div>
   );
