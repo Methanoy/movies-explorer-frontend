@@ -1,0 +1,129 @@
+.about-project {
+    padding: 110px 70px;
+}
+
+.about-project__title {
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+    letter-spacing: -0.04em;
+    padding-bottom: 23px;
+    margin: 0;
+    border-bottom: 1px solid #000;
+}
+
+.about-project__text-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+}
+
+.about-project__subtitle {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.04em;
+    margin: 70px 0 0 0;
+    padding: 0;
+}
+
+.about-project__text {
+    font-size: 14px;
+    line-height: 20px;
+    max-width: 550px;
+    margin: 26px 0 110px 0;
+}
+
+.timebar {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.timebar__line {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    align-content: center;
+    text-align: center;
+}
+
+.timebar__text {
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.timebar__text_filled-timeline {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.timebar_filled-timeline {
+    background: #3456F3;
+    height: 36px;
+}
+
+.timebar_unfilled-timeline {
+    background: #F2F2F2;
+}
+
+.timebar__description {
+    color: #a0a0a0;
+    margin-top: 14px;
+}
+
+@media screen and (max-width: 768px) {
+    .about-project {
+        padding: 90px 50px;
+    }
+
+    .about-project__text-container {
+        gap: 30px;
+    }
+
+    .about-project__text {
+        font-size: 12px;
+        line-height: 18px;
+        max-width: 320px;
+        margin: 22px 0 92px 0;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .about-project {
+        padding: 70px 18px 70px;
+    }
+
+    .about-project__title {
+        font-size: 18px;
+        line-height: 22px;
+        padding-bottom: 28px;
+    }
+
+    .about-project__text-container {
+        display: block;
+    }
+
+    .about-project__subtitle {
+        font-size: 18px;
+        line-height: 22px;
+        margin: 60px 0 0 0;
+        padding: 0;
+    }
+
+    .about-project__text {
+        font-size: 11px;
+        line-height: 16px;
+        margin: 16px 0 60px 0;
+    }
+
+    .timebar__line {
+        grid-template-columns: 100px 1fr;
+    }
+
+    .timebar__text {
+        font-size: 11px;
+        line-height: 13px;
+    }
+
+}
