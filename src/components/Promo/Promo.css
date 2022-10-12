@@ -61,7 +61,7 @@
     height: 304px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) and (max-width: 1279px) {
     .promo {
         flex-direction: column-reverse;
         align-items: center;
@@ -91,9 +91,10 @@
     }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 767px) {
     .promo {
         flex-direction: column-reverse;
+        align-items: center;
         padding: 70px 55px 66px 55px;
     }
 
@@ -103,8 +104,12 @@
     }
 
     .promo__text-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         margin-top: 44px;
         min-width: 300px;
+        text-align: center;
     }
 
     .promo__title {

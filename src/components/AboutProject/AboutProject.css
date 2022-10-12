@@ -72,7 +72,7 @@
     margin-top: 14px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) and (max-width: 1279px) {
     .about-project {
         padding: 90px 50px;
     }
@@ -89,7 +89,7 @@
     }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 767px) {
     .about-project {
         padding: 70px 18px 70px;
     }
