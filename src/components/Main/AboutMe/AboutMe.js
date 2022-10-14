@@ -1,6 +1,6 @@
 import './AboutMe.css';
-import portfolioArrow from '../../images/portfolio__arrow.svg';
-import portfolioAvatar from '../../images/portfolio__avatar.jpg';
+import portfolioArrow from '../../../images/portfolio__arrow.svg';
+import portfolioAvatar from '../../../images/portfolio__avatar.jpg';
 
 function AboutMe() {
 
