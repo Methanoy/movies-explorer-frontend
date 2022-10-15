@@ -16,7 +16,6 @@ function Promo() {
               <h1 className="promo__title">Учебный проект студента факультета Веб-разработки.</h1>
               <p className="promo__text">Листайте ниже, чтобы узнать больше про этот проект и его создателя.</p>
               <button ref={useRef} className="promo__btn" onClick={handleLearnMore} type="button" aria-label="Узнать больше.">Узнать больше</button>
-
           </div>
           <div className="promo__img-container">
               <img className="promo__img" src={promoLogo} alt="Изображение глобуса, нарисованного из латинских слов 'web'" />

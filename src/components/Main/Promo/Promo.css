@@ -46,7 +46,7 @@
     font-size: 12px;
     line-height: 16px;
     cursor: pointer;
-    transition: transform .3s linear 0s, box-shadow .3s linear 0s;
+    transition: all .3s linear 0s;
 }
 
 .promo__btn:hover {
@@ -132,7 +132,6 @@
 
     .promo__btn {
         margin-top: 80px;
-        transition: none;
     }
 
 }
