@@ -4,10 +4,9 @@ import headerLogo from '../../images/header__logo.svg';
 
 function Header() {
     const currentLocation = useLocation();
-    console.log(currentLocation);
 
     return(
-        <header className={`header header_them_${
+        <header className={`header header_theme_${
             currentLocation.pathname === '/' ? 'grey' : 'light'
         }`}>
             <div className="header__container">
