@@ -29,17 +29,17 @@
 }
 
 .header__link {
-    transition: transform .3s linear 0s, box-shadow .3s linear 0s;
+    transition: all .3s linear 0s;
     border-radius: 50%;
 }
 
 .header__link:hover {
-    box-shadow: 0.1px 0.1px 3px #3456F3;
-    transform: scale(1.1);
+    box-shadow: 0.1px 0.1px 5px #3456F3;
 }
 
 .header__link:active {
     box-shadow: 0.1px 0.1px 3px #3456F3 inset;
+    transform: scale(0.9);
 }
 
 @media screen and (min-width: 768px) and (max-width: 1279px) {
@@ -60,10 +60,10 @@
 
     .header__link:hover {
         box-shadow: none;
-        transform: none;
     }
 
     .header__link:active {
         box-shadow: none;
+        transform: none;
     }
 }

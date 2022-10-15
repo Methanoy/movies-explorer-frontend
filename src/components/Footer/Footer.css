@@ -51,12 +51,16 @@
     margin: 0;
     text-decoration: none;
     color: #000;
-    transition: opacity .3s linear 0s, transform .3s linear 0s;
+    transition: all .3s linear 0s;
 }
 
 .footer__link-name:hover {
     opacity: .5;
-    transform: scale(0.95);
+}
+
+.footer__link-name:active {
+    opacity: .5;
+    transform: scale(0.9);
 }
 
 @media screen and (min-width: 768px) and (max-width: 1279px) {

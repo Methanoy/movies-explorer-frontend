@@ -69,12 +69,15 @@
     text-decoration-line: none;
     cursor: pointer;
     color: #000;
-    transition: opacity .3s linear 0s, transform .3s linear 0s;
+    transition: all .3s linear 0s;
 }
 
 .about-me__git-link:hover {
     opacity: .5;
-    transform: scale(0.95);
+}
+
+.about-me__git-link:active {
+    transform: scale(0.9);
 }
 
 @media screen and (min-width: 768px) and (max-width: 1279px) {
@@ -160,6 +163,10 @@
 
     .about-me__git-link:hover {
         opacity: 1;
+        transform: none;
+    }
+
+    .about-me__git-link:hover {
         transform: none;
     }
 }
