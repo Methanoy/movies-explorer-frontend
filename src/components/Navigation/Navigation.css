@@ -1,0 +1,76 @@
+.navigation{
+
+}
+
+.navigation__menu-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.navigation__link {
+    display: flex;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    text-decoration-line: none;
+    color: #000;
+    transition: all .3s linear 0s;
+}
+
+.navigation__link:hover {
+    opacity: .5;
+}
+
+.navigation__link:active {
+    transform: scale(0.9);
+}
+
+.navigation__link_signin-btn {
+    padding: 8px 20px;
+    border-radius: 3px;
+    background-color: #3456F3;
+    color: #fff;
+}
+
+.navigation__link_signin-btn:hover {
+    box-shadow: 0.1px 0.1px 5px #3456F3;
+    opacity: 1;
+}
+
+.navigation__link_signin-btn:active {
+    box-shadow: 0.1px 0.1px 3px #3456F3 inset;
+}
+
+@media screen and (max-width: 767px) {
+
+    .navigation__menu-list {
+        gap: 14px;
+    }
+
+    .navigation__link {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    .navigation__link:hover {
+        opacity: 1;
+    }
+    
+    .navigation__link:active {
+        transform: none;
+    }
+
+    .navigation__link_signin-btn:hover {
+        box-shadow: none;
+    }
+    
+    .navigation__link_signin-btn:active {
+        box-shadow: none;
+    }
+}

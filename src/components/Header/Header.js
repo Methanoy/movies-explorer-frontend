@@ -1,8 +1,9 @@
 import './Header.css';
 import { Link, useLocation } from 'react-router-dom';
 import headerLogo from '../../images/header__logo.svg';
+import Navigation from '../Navigation/Navigation';
 
-function Header() {
+function Header({ isLoggedIn }) {
     const currentLocation = useLocation();
 
     return(
@@ -13,7 +14,7 @@ function Header() {
                 <Link to="/" className="header__link">
                     <img className="header__logo" src={headerLogo} alt="Логотип приложения в форме синего кольца (пончика)."/>
                 </Link>
-                <nav>Регистрация Войти</nav>
+                <Navigation isLoggedIn={isLoggedIn} />
             </div>
         </header>
     );

@@ -1,15 +1,16 @@
 import './App.css';
-import React from 'react';
+import { React, useState } from 'react';
 import { Route } from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <div className="app">
-      <Header />
+      <Header isLoggedIn={isLoggedIn} />
       <Route exact path="/">
         <Main />
       </Route>
