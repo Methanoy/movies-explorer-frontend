@@ -1,5 +1,5 @@
 .about-me {
-    padding: 110px 70px 125px;
+    padding: 110px 70px 50px;
     background-color: #FAFAFA;
 }
 
@@ -70,54 +70,10 @@
     color: #000;
 }
 
-.about-me__portfolio {
-    display: flex;
-    flex-direction: column;
-    margin-top: 100px;
-}
-
-.about-me__portfolio-list-title {
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 20px;
-    padding: 0;
-    margin: 0 0 50px;
-    color: #A0A0A0;
-}
-
-.about-me__portfolio-list-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #E8E8E8;
-    padding-bottom: 20px;
-    list-style: none;
-}
-
-.about-me__portfolio-list-item:last-child {
-    border-bottom: none;
-    padding: 0;
-}
-
-.about-me__portfolio-item-name {
-    margin: 0;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 50px;
-    letter-spacing: -0.04em;
-    text-decoration-line: none;
-    color: #000;
-}
-
-.about-me__portfolio-arrow {
-    width: 15px;
-    height: 15px;
-}
-
 @media screen and (min-width: 768px) and (max-width: 1279px) {
 
     .about-me {
-        padding: 90px 50px;
+        padding: 45px 50px;
     }
     
     .about-me__avatar {
@@ -142,25 +98,12 @@
         line-height: 18px;
         margin: 20px 0 87px;
     }
-
-    .about-me__portfolio {
-        margin-top: 90px;
-    }
-
-    .about-me__portfolio-item-name {
-        font-size: 28px;
-    }
-
-    .about-me__portfolio-arrow {
-        width: 14px;
-        height: 14px;
-    }
 }
 
 @media screen and (max-width: 767px) {
 
     .about-me {
-        padding: 70px 14px;
+        padding: 35px 14px;
     }
 
     .about-me__title {
@@ -204,24 +147,5 @@
         font-size: 11px;
         line-height: 16px;
         margin: 20px 0 40px;
-    }
-
-    .about-me__portfolio {
-        margin-top: 70px;
-    }
-    
-    .about-me__portfolio-list-title {
-        font-size: 14px;
-        margin: 0 0 40px;
-    }
-
-    .about-me__portfolio-item-name {
-        font-size: 18px;
-        line-height: 28px;
-    }
-    
-    .about-me__portfolio-arrow {
-        width: 9px;
-        height: 9px;
     }
 }
