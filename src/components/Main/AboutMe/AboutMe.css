@@ -3,6 +3,13 @@
     background-color: #FAFAFA;
 }
 
+.about-me__size-limiter {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+
 .about-me__title {
     font-weight: 400;
     font-size: 22px;

@@ -3,6 +3,13 @@
     background-color: #F5F5F5;
 }
 
+.techs__size-limiter {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+
 .techs__title {
     font-weight: 400;
     font-size: 22px;
