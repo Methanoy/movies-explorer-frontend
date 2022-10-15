@@ -46,9 +46,17 @@
 }
 
 .footer__link-name {
+    display: flex;
+    justify-content: center;
     margin: 0;
     text-decoration: none;
     color: #000;
+    transition: opacity .3s linear 0s, transform .3s linear 0s;
+}
+
+.footer__link-name:hover {
+    opacity: .5;
+    transform: scale(0.95);
 }
 
 @media screen and (min-width: 768px) and (max-width: 1279px) {
@@ -78,5 +86,13 @@
         display: flex;
         flex-direction: column;
         gap: 12px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    .footer__link-name:hover {
+        opacity: 1;
+        transform: none;
     }
 }
