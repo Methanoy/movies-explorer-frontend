@@ -1,0 +1,145 @@
+.form__container {
+    display: flex;
+    flex-direction: column;
+}
+
+.forma__img-wrapper {
+    max-width: 38px;
+    max-height: 38px;
+    transition: all .3s linear 0s;
+    border-radius: 50%;
+}
+
+.forma__img-wrapper:hover {
+    box-shadow: 0.1px 0.1px 5px #3456F3;
+}
+
+.forma__img-wrapper:active {
+    box-shadow: 0.1px 0.1px 3px #3456F3 inset;
+    transform: scale(0.9);
+}
+
+.form__logo {
+    display: flex;
+    object-fit: contain;
+    object-position: center;
+}
+
+.form__greeting-title {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    padding: 40px 0;
+    margin: 0;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form__submit-btn {
+    width: 396px;
+    height: 45px;
+    margin: 69px 0 16px 0;
+    border: none;
+    border-radius: 3px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    cursor: pointer;
+    color: #fff;
+    background-color: #3456F3;
+    transition: all .3s linear 0s;
+}
+
+.form__submit-btn:hover {
+    box-shadow: 0.1px 0.1px 5px #3456F3;
+}
+
+.form__submit-btn:active {
+    box-shadow: 0.1px 0.1px 3px #000 inset;
+    transform: scale(0.9);
+}
+
+.form__redirect-text {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #A0A0A0;
+}
+
+.form__signin-link {
+    color: #3456F3;
+    text-decoration-line: none;
+    transition: all .3s linear 0s;
+}
+
+.form__signin-link:hover {
+    opacity: .5;
+}
+
+.form__signin-link:active {
+    transform: scale(0.9);
+}
+
+@media screen and (max-width: 767px) {
+
+    .form__container {
+        align-items: center;
+    }
+
+    .forma__img-wrapper {
+        padding-top: 56px;
+    }
+
+    .form__greeting-title {
+        padding: 50px 0 80px;
+    }
+    
+    .form__submit-btn {
+        width: 260px;
+        margin: 157px 0 14px 0;
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .form__redirect-text {
+        font-size: 12px;
+        line-height: 15px;
+        color: #A0A0A0;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+
+    .form__landing-link:hover {
+        box-shadow: none;
+    }
+
+    .form__landing-link:active {
+        box-shadow: none;
+        transform: none;
+    }
+
+    .form__submit-btn:hover {
+        box-shadow: none;
+    }
+    
+    .form__submit-btn:active {
+        box-shadow: none;
+        transform: none;
+    }
+
+    .form__signin-link:hover {
+        opacity: 1;
+    }
+    
+    .form__signin-link:active {
+        transform: none;
+    }
+}

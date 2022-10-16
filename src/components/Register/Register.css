@@ -1,0 +1,36 @@
+.register {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 1280px;
+    min-width: 100vw;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 0;
+    background-color: #FAFAFA;
+}
+
+.register__input-title {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    padding-bottom: 10px;
+    color: #A0A0A0;
+}
+
+.register__input {
+    width: 396px;
+    height: 46px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #F4F4F4;
+}
+
+@media screen and (max-width: 767px) {
+
+    .register__input {
+        width: 260px;
+    }
+}
