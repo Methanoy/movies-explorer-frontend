@@ -6,7 +6,7 @@ import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <div className="app">
