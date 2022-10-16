@@ -5,6 +5,7 @@ import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 import Register from '../Register/Register';
+import Login from '../Login/Login';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -18,8 +19,11 @@ function App() {
       <Route exact path="/">
         <Main />
       </Route>
-      <Route path="/signup">
+      <Route exact path="/signup">
         <Register />
+      </Route>
+      <Route exact path="/signin">
+        <Login />
       </Route>
       <Route exact path={paths}>
         <Footer />
