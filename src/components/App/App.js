@@ -7,6 +7,7 @@ import Footer from '../Footer/Footer';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
+import NotFound from '../NotFound/NotFound';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -33,6 +34,9 @@ function App() {
       </Route>
       <Route exact path={footerPaths}>
         <Footer />
+      </Route>
+      <Route>
+        <NotFound />
       </Route>
     </div>
   );
