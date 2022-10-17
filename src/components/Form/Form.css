@@ -38,6 +38,54 @@
     flex-direction: column;
 }
 
+.form__btn-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    list-style: none;
+    margin: 0;
+    padding: 220px 0 0;
+}
+
+.form__btn-item {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.form__edit-btn {
+    border: none;
+    background-color: #FAFAFA;
+    cursor: pointer;
+    transition: all .3s linear 0s;
+}
+
+.form__edit-btn:hover {
+    opacity: .5;
+}
+
+.form__edit-btn:active {
+    transform: scale(0.9);
+}
+
+.form__signout-btn {
+    border: none;
+    background-color: #FAFAFA;
+    color: #EE3465;
+    cursor: pointer;
+    transition: all .3s linear 0s;
+}
+
+.form__signout-btn:hover {
+    opacity: .5;
+}
+
+.form__signout-btn:active {
+    transform: scale(0.9);
+}
+
 .form__submit-btn {
     width: 396px;
     height: 45px;
@@ -92,8 +140,16 @@
         align-items: center;
     }
 
+    .form__greeting-title {
+        padding-top: 0;
+    }
+
     .forma__img-wrapper {
         padding-top: 56px;
+    }
+
+    .form__btn-list {
+        padding: 379px 0 0;
     }
 
     .form__greeting-title {
