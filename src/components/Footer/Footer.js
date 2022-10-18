@@ -10,12 +10,12 @@ function Footer() {
                 <div className="footer__container">
                     <p className="footer__copyright">&copy; {new Date().getFullYear()}</p>
                         <ul className="footer__link-list">
-                            <li>
+                            <li className="item">
                                 <a className="footer__link-name" href="https://practicum.yandex.ru/" target="_blank" rel="noopener noreferrer">
                                     Яндекс.Практикум
                                 </a>
                             </li>
-                            <li>
+                            <li className="item">
                                 <a className="footer__link-name" href="https://github.com/Methanoy" target="_blank" rel="noopener noreferrer">
                                     Github
                                 </a>

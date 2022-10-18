@@ -79,16 +79,19 @@
     .footer__container {
         display: flex;
         flex-direction: column-reverse;
+        align-items: center;
         margin: 30px 0 0;
     }
 
     .footer__copyright {
         margin: 30px 0 0;
+        color: #A0A0A0;
     }
 
     .footer__link-list {
         display: flex;
         flex-direction: column;
+        max-width: 40px;
         gap: 12px;
     }
 }

@@ -1,16 +1,19 @@
 import './MoviesCardList.css';
-import MoviesCard from '../MoviesCard/MoviesCard';
+import MoviesCard from './MoviesCard/MoviesCard';
 
-function MoviesCardList() {
+function MoviesCardList(props) {
+  
   return (
     <section className="movies-card-list">
       <ul className="movies-card-list__items-container">
-        <MoviesCard />
-        <MoviesCard />
-        <MoviesCard />
-        <MoviesCard />
+        <MoviesCard isSavedMoviesLocation={props.isSavedMoviesLocation} />
+        <MoviesCard isSavedMoviesLocation={props.isSavedMoviesLocation} />
+        <MoviesCard isSavedMoviesLocation={props.isSavedMoviesLocation} />
+        <MoviesCard isSavedMoviesLocation={props.isSavedMoviesLocation} />
       </ul>
-      <button className="movies-card-list__add-more-btn">Ещё</button>
+      {!props.isSavedMoviesLocation && (
+        <button className="movies-card-list__add-more-btn">Ещё</button>
+      )}
     </section>
   );
 }

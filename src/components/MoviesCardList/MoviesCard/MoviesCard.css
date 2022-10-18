@@ -46,7 +46,6 @@
     object-fit: contain;
     object-position: center;
     border-radius: 50%;
-    background-image: url('../../images/favourite-btn_inactive.svg');
     width: 30px;
     height: 30px;
     border: none;
@@ -54,9 +53,16 @@
     transition: all .3s linear 0s;
     cursor: pointer;
 }
-
 .card__favourite-btn_active {
-    background-image: url('../../images/favourite-btn_active.svg');
+    background-image: url('../../../images/favourite-btn_active.svg');
+}
+
+.card__favourite-btn_inactive {
+    background-image: url('../../../images/favourite-btn_inactive.svg');
+}
+
+.card__favourite-btn_delete {
+    background-image: url('../../../images/favourite-btn_delete.svg');
 }
 
 .card__favourite-btn:hover {
@@ -69,7 +75,7 @@
 }
 
 .card__img {
-    background-image: url('../../images/card__1.png');
+    background-image: url('../../../images/card__1.png');
     background-size: cover;
     object-fit: cover;
     height: 203px;

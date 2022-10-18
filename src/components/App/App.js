@@ -9,6 +9,7 @@ import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
 import Movies from '../Movies/Movies';
+import SavedMovies from '../SavedMovies/SavedMovies';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -26,6 +27,9 @@ function App() {
       </Route>
       <Route exact path="/movies">
         <Movies />
+      </Route>
+      <Route exact path="/saved-movies">
+        <SavedMovies />
       </Route>
       <Route exact path="/signup">
         <Register />
