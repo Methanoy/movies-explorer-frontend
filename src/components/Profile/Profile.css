@@ -16,8 +16,8 @@
     text-align: start;
 }
 
-.profile__input-wrapper:nth-child(1n) {
-    border-bottom: 1px solid  #E8E8E8;
+.profile__input-wrapper:first-of-type {
+    border-bottom: 1px solid #E8E8E8;
 }
 
 .profile__input-wrapper:nth-child(2n) {
