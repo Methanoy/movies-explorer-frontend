@@ -9,7 +9,7 @@ function Form(props) {
       <div className="form__container">
         {props.isProfileLocation ? null : (
           <Link to="/" className="form__landing-link">
-            <div className="forma__img-wrapper">
+            <div className="form__img-wrapper">
               <img
                 className="form__logo"
                 src={headerLogo}
@@ -18,7 +18,7 @@ function Form(props) {
             </div>
           </Link>
         )}
-        <h1 className="form__greeting-title">{props.titleText}</h1>
+        <h1 className={!props.isProfileLocation ? "form__greeting-title" : "form__greeting-title_profile"}>{props.titleText}</h1>
         {props.isProfileLocation ? (
           <form className="form" onSubmit={props.onSubmit}>
             {props.children}

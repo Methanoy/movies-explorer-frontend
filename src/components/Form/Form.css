@@ -3,18 +3,18 @@
     flex-direction: column;
 }
 
-.forma__img-wrapper {
+.form__img-wrapper {
     max-width: 38px;
     max-height: 38px;
     transition: all .3s linear 0s;
     border-radius: 50%;
 }
 
-.forma__img-wrapper:hover {
+.form__img-wrapper:hover {
     box-shadow: 0.1px 0.1px 5px #3456F3;
 }
 
-.forma__img-wrapper:active {
+.form__img-wrapper:active {
     box-shadow: 0.1px 0.1px 3px #3456F3 inset;
     transform: scale(0.9);
 }
@@ -31,6 +31,10 @@
     line-height: 29px;
     padding: 40px 0;
     margin: 0;
+}
+
+.form__greeting-title_profile {
+    padding: 74px 0 124px;
 }
 
 .form {
@@ -144,7 +148,7 @@
         padding-top: 0;
     }
 
-    .forma__img-wrapper {
+    .form__img-wrapper {
         padding-top: 56px;
     }
 
