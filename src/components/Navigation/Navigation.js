@@ -34,9 +34,11 @@ function Navigation({ isLoggedIn }) {
                             <NavLink exact to="/profile" activeClassName="" className="navigation__link_account">Аккаунт</NavLink>
                         </li>
                     </ul>
-                    <button onClick={toggleSidebarBtn} className={`navigation__small-menu-btn ${isSidebarOpen && 'navigation__small-menu-btn_active'}`} type="button">
-                        <span/>
-                    </button>
+                    <div className="navigation__burger-container">
+                        <button onClick={toggleSidebarBtn} className={`navigation__burger-btn ${isSidebarOpen && 'navigation__burger-btn_active'}`} type="button">
+                            <span/>
+                        </button>
+                    </div>
                 </nav>
             ) : (
                 <nav className="navigation">
