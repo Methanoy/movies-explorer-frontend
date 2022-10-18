@@ -8,6 +8,7 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
+import Movies from '../Movies/Movies';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -23,6 +24,9 @@ function App() {
       <Route exact path="/">
         <Main />
       </Route>
+      <Route exact path="/movies">
+        <Movies />
+      </Route>
       <Route exact path="/signup">
         <Register />
       </Route>
@@ -35,7 +39,7 @@ function App() {
       <Route exact path={footerPaths}>
         <Footer />
       </Route>
-      <Route>
+      <Route exact path="/404">
         <NotFound />
       </Route>
     </div>
