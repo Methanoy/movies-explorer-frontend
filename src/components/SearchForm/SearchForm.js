@@ -8,7 +8,7 @@ function SearchForm() {
     };
 
   return (
-    <div className="search">
+    <section className="search">
       <div className="search__size-limiter">
         <form className="search__form" name="search" onSubmit={handleSubmit}>
           <input
@@ -32,7 +32,7 @@ function SearchForm() {
           <FilterCheckbox />
         </form>
       </div>
-    </div>
+    </section>
   );
 }
 
