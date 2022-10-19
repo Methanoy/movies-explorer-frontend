@@ -12,7 +12,7 @@ function MoviesCardList(props) {
         <MoviesCard isSavedMoviesLocation={props.isSavedMoviesLocation} />
       </ul>
       {!props.isSavedMoviesLocation && (
-        <button className="movies-card-list__add-more-btn">Ещё</button>
+        <button className="movies-card-list__add-more-btn" type="button" aria-label="Вывести на экран больше карточек фильмов">Ещё</button>
       )}
     </section>
   );

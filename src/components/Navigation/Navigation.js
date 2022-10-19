@@ -43,7 +43,7 @@ function Navigation({ isLoggedIn }) {
                         </li>
                     </ul>
                     <div className="navigation__burger-container">
-                        <button onClick={toggleSidebarBtn} className={`navigation__burger-btn ${(isSidebarOpen && !isLinkClicked) &&'navigation__burger-btn_active'}`} type="button">
+                        <button onClick={toggleSidebarBtn} className={`navigation__burger-btn ${(isSidebarOpen && !isLinkClicked) &&'navigation__burger-btn_active'}`} type="button" aria-label="Меню навигации по сайту">
                             <span/>
                         </button>
                     </div>
