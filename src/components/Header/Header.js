@@ -10,7 +10,7 @@ function Header({ isLoggedIn }) {
         <header className={`header header_theme_${
             currentLocation.pathname === '/' ? 'grey' : 'light'
         }`}>
-            <div className="header__container">
+            <div className={`header__container header__container_${isLoggedIn ? "logged" : "unlogged"}`}>
                 <Link to="/" className="header__link">
                     <img className="header__logo" src={headerLogo} alt="Логотип приложения в форме синего кольца (пончика)."/>
                 </Link>

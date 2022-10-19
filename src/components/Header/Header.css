@@ -13,13 +13,21 @@
 
 .header__container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     max-width: 1280px;
     width: 100%;
     margin: 0 auto;
     padding: 0;
     padding: 21px 70px;
+}
+
+.header__container_logged {
+    justify-content: flex-start;
+    gap: 44px;
+}
+
+.header__container_unlogged {
+    justify-content: space-between;
 }
 
 .header__logo {

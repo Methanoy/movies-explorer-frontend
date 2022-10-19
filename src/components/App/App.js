@@ -13,7 +13,6 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  
   const headerPaths = ["/", "/movies", "/saved-movies", "/profile"];
   const footerPaths = ["/", "/movies", "/saved-movies"];
 

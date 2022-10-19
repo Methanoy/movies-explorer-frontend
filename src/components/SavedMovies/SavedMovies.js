@@ -5,9 +5,7 @@ import SearchForm from '../SearchForm/SearchForm';
 
 
 function SavedMovies() {
-
   const isSavedMoviesLocation = useLocation().pathname === "/saved-movies";
-  console.log(isSavedMoviesLocation)
 
   return (
     <section className="saved-movies">
