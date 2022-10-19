@@ -26,7 +26,8 @@
     border-radius: 9px;
     cursor: text;
     transition: all .2s linear 0s;
-    padding: 0;
+    padding-left: 20px;
+    text-indent: 10px;
 }
 
 .search__input:focus {
@@ -36,7 +37,7 @@
 
 .search__input::placeholder {
     background: url(../../images/search__magnifier_grey.svg) no-repeat;
-    background-position: center left;
+    background-position: left;
     text-indent: 40px;
     font-weight: 400;
     font-size: 18px;
@@ -82,12 +83,17 @@
         padding-bottom: 110px;
     }
 
+    .search__input {
+        padding-left: 0;
+        text-indent: 20px;
+    }
+
     .search__input::placeholder {
         background-image: none;
-        text-indent: 20px;
         font-weight: 400;
         font-size: 18px;
         line-height: 20px;
+        text-indent: 20px;
     }
 }
 
