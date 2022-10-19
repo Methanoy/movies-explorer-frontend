@@ -41,6 +41,7 @@ function Login({ onLogin }) {
             minLength="2"
             maxLength="40"
             autoComplete="off"
+            placeholder='info@ya.ru'
             required
           />
 
@@ -55,6 +56,7 @@ function Login({ onLogin }) {
             minLength="4"
             maxLength="30"
             autoComplete="off"
+            placeholder='****'
             required
           />
         </Form>

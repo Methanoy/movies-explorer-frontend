@@ -20,12 +20,25 @@
 }
 
 .login__input {
-    width: 396px;
+    outline: none;
+    width: 380px;
     height: 46px;
+    padding-left: 10px;
     margin-bottom: 20px;
-    border: none;
+    border: 2px solid #F4F4F4;
     border-radius: 8px;
     background-color: #F4F4F4;
+    caret-color: #3456F3;
+    transition: all .2s linear 0s;
+}
+
+.login__input:hover {
+    box-shadow: 0.1px 0.1px 5px #3456F3;
+}
+
+.login__input:focus {
+    border: 2px solid #3456F3;
+    box-shadow: 0.1px 0.1px 2px #3456F3;
 }
 
 .login__input:last-of-type {
@@ -35,10 +48,22 @@
 @media screen and (max-width: 767px) {
 
     .login__input {
-        width: 260px;
+        width: 245px;
     }
 
     .login__input:last-of-type {
         margin-bottom: 210px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    
+    .login__input:hover {
+        box-shadow: none;
+    }
+    
+    .login__input:focus {
+        border: 2px solid #3456F3;
+        box-shadow: none;
     }
 }

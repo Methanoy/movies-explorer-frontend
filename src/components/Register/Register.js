@@ -45,6 +45,7 @@ function Register({ onRegister }) {
             minLength="2"
             maxLength="40"
             autoComplete="off"
+            placeholder='Введите имя'
             required
           />
           <span className="register__input-title">E-mail</span>
@@ -58,6 +59,7 @@ function Register({ onRegister }) {
             minLength="2"
             maxLength="40"
             autoComplete="off"
+            placeholder='info@ya.ru'
             required
           />
           <span className="register__input-title">Password</span>
@@ -71,6 +73,7 @@ function Register({ onRegister }) {
             minLength="4"
             maxLength="30"
             autoComplete="off"
+            placeholder='****'
             required
           />
         </Form>
