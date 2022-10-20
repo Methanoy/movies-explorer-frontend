@@ -1,12 +1,13 @@
 import { MAIN_API_URL, handleResponse } from './utils';
 
-export const signup = (email, password) => fetch(`${MAIN_API_URL}/signup`, {
+export const signup = (name, email, password) => fetch(`${MAIN_API_URL}/signup`, {
   method: 'POST',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
+    name,
     email,
     password,
   }),

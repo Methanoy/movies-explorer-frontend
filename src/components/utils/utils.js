@@ -1,5 +1,7 @@
-const MAIN_API_URL = ' https://api.methanoy.nomoredomains.icu';
+const MAIN_API_URL = 'https://api.methanoy.nomoredomains.icu';
 const MOVIES_API_URL = 'https://api.nomoreparties.co/beatfilm-movies';
+//http://localhost:3000
+//https://api.methanoy.nomoredomains.icu
 
 const handleResponse = (res) => {
   if (res.ok) {

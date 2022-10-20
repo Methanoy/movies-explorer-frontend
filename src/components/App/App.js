@@ -21,16 +21,15 @@ function App() {
   const headerPaths = ["/", "/movies", "/saved-movies", "/profile"];
   const footerPaths = ["/", "/movies", "/saved-movies"];
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [cards, setCards] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
 
-  function onSignup(userEmail, password) {
+  function onSignup(userName, userEmail, userPassword) {
     auth
-      .signup(userEmail, password)
+      .signup(userName, userEmail, userPassword)
       .then((res) => {
         if (res) {
-          history.push('/signup');
+          history.push('/signin');
         }
       })
       .catch((err) => {
@@ -38,9 +37,9 @@ function App() {
       });
   }
 
-  function onLogin(userEmail, password) {
+  function onLogin(userEmail, userPassword) {
     auth
-      .login(userEmail, password)
+      .login(userEmail, userPassword)
       .then((res) => {
         if (res) {
           setEmail(userEmail);
