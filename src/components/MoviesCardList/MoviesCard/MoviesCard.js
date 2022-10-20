@@ -1,4 +1,5 @@
 import './MoviesCard.css';
+import img from '../../../images/card__1.png';
 
 function MoviesCard({ isSavedMoviesLocation }) {
 
@@ -11,7 +12,7 @@ function MoviesCard({ isSavedMoviesLocation }) {
         </div>
         <button className={`card__favourite-btn card__favourite-btn_${isSavedMoviesLocation ? "delete" : "active"}`} type="button" aria-label="Добавить карточку в избранные или удалить"></button>
       </div>
-      <img className="card__img" alt= "Парковка в американском дворике. Облокатившись на авто и лучезарно улыбаясь, девушка-фотограф общается с компанией детей."/>
+      <img className="card__img" src={img} title="Фотограф и дети" alt="Облокотившись на авто и лучезарно улыбаясь, девушка-фотограф общается с компанией детей."/>
     </li>
   );
 }

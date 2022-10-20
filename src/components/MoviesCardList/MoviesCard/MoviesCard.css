@@ -75,9 +75,7 @@
 }
 
 .card__img {
-    background-image: url('../../../images/card__1.png');
     background-size: cover;
-    object-fit: cover;
     height: 203px;
     width: 100%;
 }
