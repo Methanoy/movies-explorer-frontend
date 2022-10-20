@@ -21,7 +21,7 @@ function App() {
   const headerPaths = ["/", "/movies", "/saved-movies", "/profile"];
   const footerPaths = ["/", "/movies", "/saved-movies"];
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [cards, setCards] = useState([]);
   const [email, setEmail] = useState('');
 

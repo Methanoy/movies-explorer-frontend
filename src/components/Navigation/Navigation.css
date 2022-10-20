@@ -5,12 +5,20 @@
 .navigation__menu-list {
     display: flex;
     width: inherit;
-    justify-content: space-between;
     align-items: center;
     list-style: none;
     gap: 30px;
     margin: 0;
     padding: 0;
+}
+
+.navigation__menu-list_unlogged {
+    justify-content: flex-end;
+}
+
+.navigation__menu-list_logged {
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navigation__hide-item:first-of-type {
@@ -28,7 +36,6 @@
     text-decoration-line: none;
     color: #000;
     transition: all .3s linear 0s;
-    padding-bottom: 7px;
 }
 
 .navigation__link-text_unlogged {
