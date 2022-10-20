@@ -1,6 +1,7 @@
 import './App.css';
-import { React, useState } from 'react';
-import { Route } from 'react-router-dom';
+import { React, useState, useEffect } from 'react';
+import { Route, useHistory } from 'react-router-dom';
+/* components */
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
@@ -10,11 +11,48 @@ import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
+/* utils */
+import * as auth from '../utils/auth';
+import MainApi from '../utils/MainApi';
+import MoviesApi from '../utils/MoviesApi';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const history = useHistory();
   const headerPaths = ["/", "/movies", "/saved-movies", "/profile"];
   const footerPaths = ["/", "/movies", "/saved-movies"];
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [cards, setCards] = useState([]);
+  const [email, setEmail] = useState('');
+
+  function onSignup(userEmail, password) {
+    auth
+      .signup(userEmail, password)
+      .then((res) => {
+        if (res) {
+          history.push('/signup');
+        }
+      })
+      .catch((err) => {
+        console.log(`Ошибка при регистрации пользователя: ${err}`);
+      });
+  }
+
+  function onLogin(userEmail, password) {
+    auth
+      .login(userEmail, password)
+      .then((res) => {
+        if (res) {
+          setEmail(userEmail);
+          setIsLoggedIn(true);
+          history.push('/');
+          localStorage.setItem('login-status', 'logged-in');
+        }
+      })
+      .catch((err) => {
+        console.log(`Ошибка при логине пользователя: ${err}`);
+      });
+  }
 
   return (
     <div className="app">
@@ -31,10 +69,10 @@ function App() {
         <SavedMovies />
       </Route>
       <Route exact path="/signup">
-        <Register />
+        <Register onSignup={onSignup} />
       </Route>
       <Route exact path="/signin">
-        <Login />
+        <Login onLogin={onLogin} />
       </Route>
       <Route exact path="/profile">
         <Profile />

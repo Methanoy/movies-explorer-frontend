@@ -1,6 +1,6 @@
-import { BASE_URL, handleResponse } from './utils';
+import { MAIN_API_URL, handleResponse } from './utils';
 
-export const signup = (email, password) => fetch(`${BASE_URL}/signup`, {
+export const signup = (email, password) => fetch(`${MAIN_API_URL}/signup`, {
   method: 'POST',
   headers: {
     Accept: 'application/json',
@@ -12,7 +12,7 @@ export const signup = (email, password) => fetch(`${BASE_URL}/signup`, {
   }),
 }).then(handleResponse);
 
-export const sigin = (email, password) => fetch(`${BASE_URL}/signin`, {
+export const login = (email, password) => fetch(`${MAIN_API_URL}/signin`, {
   method: 'POST',
   credentials: 'include',
   headers: {
@@ -25,7 +25,7 @@ export const sigin = (email, password) => fetch(`${BASE_URL}/signin`, {
   }),
 }).then(handleResponse);
 
-export const signout = () => fetch(`${BASE_URL}/signout`, {
+export const signout = () => fetch(`${MAIN_API_URL}/signout`, {
   method: 'GET',
   credentials: 'include',
   headers: {
@@ -34,7 +34,7 @@ export const signout = () => fetch(`${BASE_URL}/signout`, {
   },
 }).then(handleResponse);
 
-export const checkToken = () => fetch(`${BASE_URL}/users/me`, {
+export const checkToken = () => fetch(`${MAIN_API_URL}/users/me`, {
   method: 'GET',
   credentials: 'include',
   headers: {

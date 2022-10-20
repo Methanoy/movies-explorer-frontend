@@ -2,14 +2,14 @@ import './Register.css';
 import { React, useState } from 'react';
 import Form from '../Form/Form';
 
-function Register({ onRegister }) {
+function Register({ onSignup }) {
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [userPassword, setUserPassword] = useState('');
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        onRegister(userName, userEmail, password);
+        onSignup(userName, userEmail, userPassword);
     };
 
     const handleNameChange = (evt) => {
@@ -21,8 +21,8 @@ function Register({ onRegister }) {
     };
 
     const handlePasswordChange = (evt) => {
-        setPassword(evt.target.value);
-    };
+      setUserPassword(evt.target.value);
+  };
 
     return (
       <main className="register">
@@ -68,7 +68,7 @@ function Register({ onRegister }) {
             className="register__input"
             type="password"
             name="password"
-            value={password}
+            value={userPassword}
             onChange={handlePasswordChange}
             minLength="4"
             maxLength="30"

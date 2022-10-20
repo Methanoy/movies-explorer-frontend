@@ -4,11 +4,11 @@ import Form from '../Form/Form';
 
 function Login({ onLogin }) {
     const [userEmail, setUserEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [userPassword, setUserPassword] = useState('');
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        onLogin(userEmail, password);
+        onLogin(userEmail, userPassword);
     };
 
     const handleEmailChange = (evt) => {
@@ -16,7 +16,7 @@ function Login({ onLogin }) {
     };
 
     const handlePasswordChange = (evt) => {
-        setPassword(evt.target.value);
+      setUserPassword(evt.target.value);
     };
 
     return (
@@ -51,7 +51,7 @@ function Login({ onLogin }) {
             className="login__input"
             type="password"
             name="password"
-            value={password}
+            value={userPassword}
             onChange={handlePasswordChange}
             minLength="4"
             maxLength="30"
