@@ -1,0 +1,149 @@
+.promo {
+    background-color: #dddee3;
+    padding: 75px 70px 75px 70px;
+}
+
+.promo__size-limiter {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+
+.promo__title {
+    max-width: 640px;
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 50px;
+    line-height: 58px;
+}
+
+.promo__text {
+    max-width: 310px;
+    padding: 0;
+    margin: 36px 0 0 0;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    opacity: .5;
+}
+
+.promo__btn {
+    width: 129px;
+    height: 36px;
+    margin-top: 146px;
+    background-color: #dddee3;
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, .6);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    cursor: pointer;
+    transition: all .3s linear 0s;
+}
+
+.promo__btn:hover {
+    box-shadow: 0.1px 0.1px 5px #3456F3;
+}
+
+.promo__btn:active {
+    box-shadow: 0.1px 0.1px 3px #3456F3 inset;
+    transform: scale(0.9);
+}
+
+.promo__img {
+    width: 310px;
+    height: 304px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+    .promo {
+        padding: 140px 44px 76px;
+    }
+
+    .promo__size-limiter {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .promo__text-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-top: 48px;
+    }
+
+    .promo__title {
+        font-size: 40px;
+        line-height: 50px;
+    }
+
+    .promo__text {
+        max-width: 260px;
+        margin-top: 22px;
+    }
+
+    .promo__btn {
+        margin-top: 92px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .promo {
+        padding: 70px 10px 40px;
+    }
+
+    .promo__size-limiter {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .promo__img {
+        width: 210px;
+        height: 206px;
+    }
+
+    .promo__text-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 44px;
+        text-align: center;
+    }
+
+    .promo__title {
+        font-size: 30px;
+        line-height: 38px;
+        letter-spacing: -0.04em;
+    }
+
+    .promo__text {
+        margin-top: 24px;
+    }
+
+    .promo__btn {
+        margin-top: 80px;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+
+    .promo__btn:hover {
+        box-shadow: none;
+    }
+    
+    .promo__btn:active {
+        box-shadow: none;
+        transform: none;
+    }
+}
