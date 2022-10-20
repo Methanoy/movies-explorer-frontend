@@ -15,12 +15,15 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import * as auth from '../utils/auth';
 import MainApi from '../utils/MainApi';
 import MoviesApi from '../utils/MoviesApi';
+/* contexts */
+import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function App() {
-  const history = useHistory();
   const headerPaths = ["/", "/movies", "/saved-movies", "/profile"];
   const footerPaths = ["/", "/movies", "/saved-movies"];
 
+  const history = useHistory();
+  const [currentUser, setIsCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
 
@@ -54,35 +57,37 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <Route exact path={headerPaths}>
-        <Header isLoggedIn={isLoggedIn} />
-      </Route>
-      <Route exact path="/">
-        <Main />
-      </Route>
-      <Route exact path="/movies">
-        <Movies />
-      </Route>
-      <Route exact path="/saved-movies">
-        <SavedMovies />
-      </Route>
-      <Route exact path="/signup">
-        <Register onSignup={onSignup} />
-      </Route>
-      <Route exact path="/signin">
-        <Login onLogin={onLogin} />
-      </Route>
-      <Route exact path="/profile">
-        <Profile />
-      </Route>
-      <Route exact path={footerPaths}>
-        <Footer />
-      </Route>
-      <Route exact path="/404">
-        <NotFound />
-      </Route>
-    </div>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="app">
+        <Route exact path={headerPaths}>
+          <Header isLoggedIn={isLoggedIn} />
+        </Route>
+        <Route exact path="/">
+          <Main />
+        </Route>
+        <Route exact path="/movies">
+          <Movies />
+        </Route>
+        <Route exact path="/saved-movies">
+          <SavedMovies />
+        </Route>
+        <Route exact path="/signup">
+          <Register onSignup={onSignup} />
+        </Route>
+        <Route exact path="/signin">
+          <Login onLogin={onLogin} />
+        </Route>
+        <Route exact path="/profile">
+          <Profile />
+        </Route>
+        <Route exact path={footerPaths}>
+          <Footer />
+        </Route>
+        <Route exact path="/404">
+          <NotFound />
+        </Route>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
