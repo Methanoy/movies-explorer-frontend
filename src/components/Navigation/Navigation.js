@@ -6,8 +6,6 @@ function Navigation({ isLoggedIn }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isLinkClicked, setIsLinkClicked] = useState(false);
 
-    console.log('клик:' + isLinkClicked);
-    console.log('меню:' + isSidebarOpen)
     // function onSignout() {
     //     setIsSmallMenuOpen(false);
     //     setLogOut();

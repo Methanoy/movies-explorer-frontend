@@ -1,10 +1,12 @@
 import './Login.css';
 import { React, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Form from '../Form/Form';
 
 function Login({ onLogin }) {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
+    const isLoginLocation = useLocation().pathname === "/signin";
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -28,6 +30,7 @@ function Login({ onLogin }) {
           redirectText="Ещё не зарегистрированы?"
           linkText="Регистрация"
           onSubmit={handleSubmit}
+          isLoginLocation={isLoginLocation}
         >
 
           <span className="register__input-title">E-mail</span>

@@ -1,12 +1,12 @@
 import './Profile.css';
 import { React, useState, useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-// import CurrentUserContext from '../contexts/CurrentUserContext';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 import Form from '../Form/Form';
 
-function Profile({ onEdit, onSignout, ...props }) {
+function Profile({ onEdit, onSignout }) {
     const isProfileLocation = useLocation().pathname === "/profile";
-    // const currentUser = useContext(CurrentUserContext);
+    const currentUser = useContext(CurrentUserContext);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
 
@@ -21,24 +21,24 @@ function Profile({ onEdit, onSignout, ...props }) {
     function handleSubmit(evt) {
       evt.preventDefault();
 
-      props.onEditProfile({
+      onEdit({
         name,
         email,
       });
     }
 
-    // useEffect(() => {
-    //     setName(currentUser.name);
-    //     setEmail(currentUser.about);
-    // }, [currentUser, props.isOpen]);
+    useEffect(() => {
+        setName(currentUser.name);
+        setEmail(currentUser.email);
+    }, [currentUser]);
 
     return (
       <main className="profile">
         <Form
           name="profile"
-          titleText="Привет, Виталий!"
+          titleText={`Привет, ${name}!`}
           signoutBtnText="Выйти"
-          edittBtnText="Редактировать"
+          editBtnText="Редактировать"
           onEdit={handleSubmit}
           onSignout={onSignout}
           isProfileLocation={isProfileLocation}
@@ -50,7 +50,7 @@ function Profile({ onEdit, onSignout, ...props }) {
               className="profile__input"
               type="text"
               name="name"
-              value={name || 'Виталий'}
+              value={name}
               onChange={handleChangeName}
               minLength="2"
               maxLength="40"
@@ -65,7 +65,7 @@ function Profile({ onEdit, onSignout, ...props }) {
               className="profile__input"
               type="email"
               name="login"
-              value={email || 'pochta@yandex.ru'}
+              value={email}
               onChange={handleChangeEmail}
               minLength="2"
               maxLength="40"

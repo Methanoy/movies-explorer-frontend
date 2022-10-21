@@ -27,9 +27,9 @@ function Form(props) {
                 <button
                 className="form__edit-btn"
                 type="submit"
-                aria-label={props.edittBtnText}
+                aria-label={props.editBtnText}
               >
-                {props.edittBtnText}
+                {props.editBtnText}
               </button>
               </li>
               <li className="form__btn-item">
@@ -56,7 +56,7 @@ function Form(props) {
             </button>
             <p className="form__redirect-text">
               {props.redirectText}
-              <Link to="/signin" className="form__signin-link">
+              <Link to={props.isLoginLocation ? "/signup" : "/signin"} className="form__signin-link">
                 {props.linkText}
               </Link>
             </p>
