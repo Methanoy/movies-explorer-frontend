@@ -20,12 +20,12 @@ function Form(props) {
         )}
         <h1 className={!props.isProfileLocation ? "form__greeting-title" : "form__greeting-title_profile"}>{props.titleText}</h1>
         {props.isProfileLocation ? (
-          <form className="form" onSubmit={props.onSubmit}>
+          <form className="form" onSubmit={props.handleSubmit}>
             {props.children}
             <ul className="form__btn-list">
               <li className="form__btn-item">
                 <button
-                className="form__edit-btn"
+                className={`form__edit-btn ${props.isUserDataChange && "form__edit-btn_visible"}`}
                 type="submit"
                 aria-label={props.editBtnText}
               >
@@ -45,7 +45,7 @@ function Form(props) {
             </ul>
           </form>
         ) : (
-          <form className="form" onSubmit={props.onSubmit}>
+          <form className="form" onSubmit={props.handleSubmit}>
             {props.children}
             <button
               className="form__submit-btn"

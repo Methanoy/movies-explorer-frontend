@@ -1,6 +1,6 @@
 import './App.css';
 import { React, useState, useEffect } from 'react';
-import { Route, useHistory, Switch, Redirect } from 'react-router-dom';
+import { Route, useHistory, Switch } from 'react-router-dom';
 /* components */
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -14,8 +14,8 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 /* utils */
 import * as auth from '../../utils/auth';
-import MainApi from '../../utils/MainApi';
-import MoviesApi from '../../utils/MoviesApi';
+import mainApi from '../../utils/MainApi';
+import moviesApi from '../../utils/MoviesApi';
 /* contexts */
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
@@ -26,6 +26,15 @@ function App() {
 
   const [currentUser, setIsCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  function handleUpdateUser(data) {
+    mainApi
+      .editUserInfo(data)
+      .then((userData) => {
+        setIsCurrentUser(userData);
+      })
+      .catch((err) => console.log(`Ошибка при редактировании данных пользователя: ${err}`))
+  }
 
   function onSignup(userName, userEmail, userPassword) {
     auth
@@ -85,6 +94,19 @@ function App() {
     }
   }, [history]);
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      mainApi
+        .getInitialUserData()
+        .then((userData) => {
+          setIsCurrentUser(userData);
+        })
+        .catch((err) => console.log(
+          `Ошибка при получении первоначальных данных пользователя с сервера: ${err}`,
+        ));
+    }
+  }, [isLoggedIn]);
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
@@ -106,7 +128,7 @@ function App() {
 
           <ProtectedRoute path="/movies" component={Movies} isLoggedIn={isLoggedIn} />
           <ProtectedRoute path="/saved-movies" component={SavedMovies} isLoggedIn={isLoggedIn} />
-          <ProtectedRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} onSignout={onSignout} />
+          <ProtectedRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} onSignout={onSignout} handleUpdateUser={handleUpdateUser} />
 
           <Route path="*">
             <NotFound history={history} />

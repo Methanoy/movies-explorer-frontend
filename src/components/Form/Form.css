@@ -60,10 +60,17 @@
 }
 
 .form__edit-btn {
+    visibility: hidden;
     border: none;
     background-color: #FAFAFA;
     cursor: pointer;
-    transition: all .3s linear 0s;
+    opacity: 0;
+    transition: opacity .3s linear 0s, transform .3s linear 0s;
+}
+
+.form__edit-btn_visible {
+    visibility: visible;
+    opacity: 1;
 }
 
 .form__edit-btn:hover {
@@ -201,5 +208,12 @@
     
     .form__signin-link:active {
         transform: none;
+    }
+
+    .form__edit-btn {
+        visibility: visible;
+        color: #000;
+        transform: scale(1);
+        opacity: 1;
     }
 }

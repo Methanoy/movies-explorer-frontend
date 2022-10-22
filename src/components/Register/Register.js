@@ -32,7 +32,7 @@ function Register({ onSignup }) {
           titleText="Добро пожаловать!"
           redirectText="Уже зарегистрированы?"
           linkText="Войти"
-          onSubmit={handleSubmit}
+          handleSubmit={handleSubmit}
         >
           <span className="register__input-title">Имя</span>
           <input

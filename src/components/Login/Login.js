@@ -29,7 +29,7 @@ function Login({ onLogin }) {
           titleText="Рады видеть!"
           redirectText="Ещё не зарегистрированы?"
           linkText="Регистрация"
-          onSubmit={handleSubmit}
+          handleSubmit={handleSubmit}
           isLoginLocation={isLoginLocation}
         >
 
