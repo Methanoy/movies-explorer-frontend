@@ -8,17 +8,16 @@ class MoviesApi {
 
   getMoviesApiData() {
     return fetch(`${this.baseUrl}`, {
-      credentials: 'include',
       headers: this.headers,
     }).then(handleResponse);
   }
 }
 
-const moivesApi = new MoviesApi({
+const moviesApi = new MoviesApi({
     baseUrl: MOVIES_API_URL,
     headers: {
       'Content-Type': 'application/json',
     },
   });
   
-  export default moivesApi;
+  export default moviesApi;

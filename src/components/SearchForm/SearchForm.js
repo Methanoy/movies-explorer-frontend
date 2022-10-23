@@ -1,23 +1,30 @@
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import { useState } from 'react';
 
-function SearchForm() {
+function SearchForm({ handleUserMoviesSearch }) {
+  const [userRequest, setUserRequest] = useState('');
 
-    const handleSubmit = (evt) => {
+    const handleSubmitRequest = (evt) => {
         evt.preventDefault();
+        handleUserMoviesSearch(userRequest);
     };
+
+    const handleSearchFormChange = (evt) => {
+      setUserRequest(evt.target.value);
+  };
 
   return (
     <section className="search">
       <div className="search__size-limiter">
-        <form className="search__form" name="search" onSubmit={handleSubmit}>
+        <form className="search__form" name="search" onSubmit={handleSubmitRequest}>
           <input
             id="search-input"
             className="search__input"
             type="text"
             name="search"
             //   value={}
-            //   onChange={}
+            onChange={handleSearchFormChange}
             minLength="2"
             maxLength="40"
             autoComplete="off"
