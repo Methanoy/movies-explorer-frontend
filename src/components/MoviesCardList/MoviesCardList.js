@@ -7,7 +7,14 @@ function MoviesCardList(props) {
     <section className="movies-card-list">
       <ul className="movies-card-list__items-container">
         {props.movies.map((movie) => (
-          <MoviesCard movie={movie} key={movie.id} isSavedMoviesLocation={props.isSavedMoviesLocation} />
+          <MoviesCard
+            movie={movie}
+            key={movie.id}
+            savedMovies={props.savedMovies}
+            isSavedMoviesLocation={props.isSavedMoviesLocation}
+            handleAddNewMovieCard={props.handleAddNewMovieCard}
+            handleDeleteMovieCard={props.handleDeleteMovieCard}
+          />
         ))}
       </ul>
       {!props.isSavedMoviesLocation && (

@@ -4,13 +4,18 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
 
 
-function SavedMovies() {
+function SavedMovies({ handleAddNewMovieCard, handleDeleteMovieCard, savedMovies }) {
   const isSavedMoviesLocation = useLocation().pathname === "/saved-movies";
 
   return (
     <section className="saved-movies">
       <SearchForm />
-      <MoviesCardList isSavedMoviesLocation={isSavedMoviesLocation} />
+      <MoviesCardList
+        isSavedMoviesLocation={isSavedMoviesLocation}
+        handleAddNewMovieCard={handleAddNewMovieCard}
+        handleDeleteMovieCard={handleDeleteMovieCard}
+        movies={savedMovies}
+      />
     </section>
   );
 }

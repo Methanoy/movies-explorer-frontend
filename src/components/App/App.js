@@ -21,9 +21,10 @@ import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 function App() {
   const history = useHistory();
-  const headerPaths = ["/", "/movies", "/saved-movies", "/profile"];
+  const headerPaths = ['/', '/movies', '/saved-movies', '/profile'];
   const footerPaths = ["/", "/movies", "/saved-movies"];
-  const [movies, setMovies] = useState([]);
+
+  const [searchedMovies, setSearchedMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const [currentUser, setIsCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,20 +32,48 @@ function App() {
   function handleUserMoviesSearch(userRequest) {
     const initialMoviesList = JSON.parse(localStorage.getItem('initialMoviesList'));
     if (initialMoviesList.length !== 0) {
-      const moviesSortByUserRequest = initialMoviesList.filter(movie => {
+      const moviesSortedByUserRequest = initialMoviesList.filter(movie => {
         const movieDescription = movie.description.toLowerCase();
         const ruMovie = movie.nameRU.toLowerCase();
         const enMovie = movie.nameEN.toLowerCase();
         const userRequestData = userRequest.toLowerCase();
-        const movieSearchResult = (movieDescription || ruMovie || enMovie).includes(userRequestData);
+        const movieSearchResult =
+          movieDescription.includes(userRequestData) ||
+          ruMovie.includes(userRequestData) ||
+          enMovie.includes(userRequestData);
         return movieSearchResult;
       });
-      if (moviesSortByUserRequest) {
-        setMovies(moviesSortByUserRequest);
+      if (moviesSortedByUserRequest) {
+        localStorage.setItem('requestedMoviesList', JSON.stringify(moviesSortedByUserRequest));
+        localStorage.setItem('lastUserRequest', JSON.stringify(userRequest));
+        setSearchedMovies(moviesSortedByUserRequest);
       } else {
-        setMovies([]);
       }
     }
+  }
+
+  function handleAddNewMovieCard(addingMovie) {
+    mainApi
+      .addNewMovieCard(addingMovie)
+      .then((newMovieCard) => {
+        const cardList = [newMovieCard, ...savedMovies];
+        setSavedMovies(cardList);
+        localStorage.setItem('savedMoviesList', JSON.stringify(cardList));
+      })
+      .catch((err) => console.log(`Ошибка при добавлении новой карточки фильма: ${err}`))
+  }
+
+  function handleDeleteMovieCard(deletingMovie) {
+    mainApi
+      .deleteMovieCard(deletingMovie._id)
+      .then(() => {
+        const localSavedMoviesCard = JSON.parse(localStorage.getItem
+        ('savedMoviesList'));
+        const rewritedSavedMovieList = localSavedMoviesCard.filter(movie => movie.movieId !== deletingMovie.id);
+        setSavedMovies(rewritedSavedMovieList);
+        localStorage.setItem('savedMoviesList', JSON.stringify(rewritedSavedMovieList));
+      })
+      .catch((err) => console.log(`Ошибка при удалении карточки фильма: ${err}`))
   }
 
   function handleUpdateUser(data) {
@@ -132,7 +161,6 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      // тут будет прелоадер
       moviesApi
         .getMoviesApiData()
         .then((moviesData) => {
@@ -141,7 +169,6 @@ function App() {
         .catch((err) => console.log(
           `Ошибка при получении первоначального списка фильмов от BeatFilm: ${err}`,
         ));
-        //добавить final с прелоадером
     }
   }, [isLoggedIn]);
 
@@ -158,15 +185,37 @@ function App() {
           </Route>
 
           <Route exact path="/signup">
-              <Register onSignup={onSignup} />
+            <Register onSignup={onSignup} />
           </Route>
           <Route exact path="/signin">
             <Login onLogin={onLogin} />
           </Route>
 
-          <ProtectedRoute path="/movies" component={Movies} isLoggedIn={isLoggedIn} movies={movies} handleUserMoviesSearch={handleUserMoviesSearch} />
-          <ProtectedRoute path="/saved-movies" component={SavedMovies} isLoggedIn={isLoggedIn} />
-          <ProtectedRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} onSignout={onSignout} handleUpdateUser={handleUpdateUser} />
+          <ProtectedRoute
+            path="/movies"
+            component={Movies}
+            isLoggedIn={isLoggedIn}
+            savedMovies={savedMovies}
+            searchedMovies={searchedMovies}
+            handleAddNewMovieCard={handleAddNewMovieCard}
+            handleDeleteMovieCard={handleDeleteMovieCard}
+            handleUserMoviesSearch={handleUserMoviesSearch}
+          />
+          <ProtectedRoute
+            path="/saved-movies"
+            component={SavedMovies}
+            isLoggedIn={isLoggedIn}
+            savedMovies={savedMovies}
+            handleAddNewMovieCard={handleAddNewMovieCard}
+            handleDeleteMovieCard={handleDeleteMovieCard}
+          />
+          <ProtectedRoute
+            path="/profile"
+            component={Profile}
+            onSignout={onSignout}
+            isLoggedIn={isLoggedIn}
+            handleUpdateUser={handleUpdateUser}
+          />
 
           <Route path="*">
             <NotFound history={history} />

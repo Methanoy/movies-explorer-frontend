@@ -1,4 +1,4 @@
-import { MAIN_API_URL, handleResponse } from './utils';
+import { MAIN_API_URL, makeImgURL, handleResponse } from './utils';
 
 class MainApi {
   constructor(options) {
@@ -38,11 +38,11 @@ class MainApi {
         duration: data.duration,
         year: data.year,
         description: data.description,
-        image: data.image,
+        image: `${makeImgURL(data.image.url)}`,
         trailerLink: data.trailerLink,
-        thumbnail: data.thumbnail,
+        thumbnail: data.thumbnail || `${makeImgURL(data.image.url)}`,
         owner: data.owner,
-        movieId: data.movieId,
+        movieId: data.id,
         nameRU: data.nameRU,
         nameEN: data.nameEN,
       }),

@@ -1,5 +1,6 @@
 const MAIN_API_URL = 'http://localhost:3000';
 const MOVIES_API_URL = 'https://api.nomoreparties.co/beatfilm-movies';
+const MOVIES_IMG_URL = 'https://api.nomoreparties.co';
 //http://localhost:3000
 //https://api.methanoy.nomoredomains.icu
 
@@ -12,4 +13,17 @@ const handleResponse = (res) => {
   ));
 };
 
-export { MAIN_API_URL, MOVIES_API_URL, handleResponse };
+function convertMinutesToHours(movieDuration) {
+  const hours = Math.trunc(movieDuration / 60);
+  const minutes = movieDuration % 60;
+  if(hours === 0) {
+    return `${minutes}м`;
+  } else {
+    return `${hours}ч ${minutes}м`;
+  }
+}
+
+const makeImgURL = (movieApiImgPath) => `${MOVIES_IMG_URL}${movieApiImgPath}`;
+
+
+export { MAIN_API_URL, MOVIES_API_URL, MOVIES_IMG_URL, handleResponse, convertMinutesToHours, makeImgURL };

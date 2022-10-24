@@ -23,7 +23,7 @@ function SearchForm({ handleUserMoviesSearch }) {
             className="search__input"
             type="text"
             name="search"
-            //   value={}
+            // value={userSearchRequest || ''}
             onChange={handleSearchFormChange}
             minLength="2"
             maxLength="40"
