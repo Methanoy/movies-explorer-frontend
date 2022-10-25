@@ -12,6 +12,7 @@ import NotFound from '../NotFound/NotFound';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
 /* utils */
 import * as auth from '../../utils/auth';
 import mainApi from '../../utils/MainApi';
@@ -67,9 +68,8 @@ function App() {
     mainApi
       .deleteMovieCard(deletingMovie._id)
       .then(() => {
-        const localSavedMoviesCard = JSON.parse(localStorage.getItem
-        ('savedMoviesList'));
-        const rewritedSavedMovieList = localSavedMoviesCard.filter(movie => movie.movieId !== deletingMovie.id);
+        const localSavedMoviesCard = JSON.parse(localStorage.getItem('savedMoviesList'));
+        const rewritedSavedMovieList = localSavedMoviesCard.filter(movie => movie.movieId !== deletingMovie.movieId);
         setSavedMovies(rewritedSavedMovieList);
         localStorage.setItem('savedMoviesList', JSON.stringify(rewritedSavedMovieList));
       })
@@ -225,6 +225,7 @@ function App() {
         <Route exact path={footerPaths}>
           <Footer />
         </Route>
+
       </div>
     </CurrentUserContext.Provider>
   );
