@@ -9,11 +9,11 @@ function MoviesCardList(props) {
         {props.movies.map((movie) => (
           <MoviesCard
             movie={movie}
-            key={movie.id}
+            key={movie.id || movie.movieId}
             savedMovies={props.savedMovies}
             isSavedMoviesLocation={props.isSavedMoviesLocation}
-            handleAddNewMovieCard={props.handleAddNewMovieCard}
-            handleDeleteMovieCard={props.handleDeleteMovieCard}
+            handleLikeMovieCard={props.handleLikeMovieCard}
+            handleUnlikeMovieCard={props.handleUnlikeMovieCard}
           />
         ))}
       </ul>

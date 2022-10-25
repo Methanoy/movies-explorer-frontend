@@ -12,7 +12,6 @@ import NotFound from '../NotFound/NotFound';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import InfoTooltip from '../InfoTooltip/InfoTooltip';
 /* utils */
 import * as auth from '../../utils/auth';
 import mainApi from '../../utils/MainApi';
@@ -30,32 +29,56 @@ function App() {
   const [currentUser, setIsCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  function handleUserMoviesSearch(userRequest) {
-    const initialMoviesList = JSON.parse(localStorage.getItem('initialMoviesList'));
+  function handleSearchMovie(searchRequest) {
+    const initialMoviesList = JSON.parse(localStorage.getItem('allApisMoviesList'));
     if (initialMoviesList.length !== 0) {
       const moviesSortedByUserRequest = initialMoviesList.filter(movie => {
         const movieDescription = movie.description.toLowerCase();
         const ruMovie = movie.nameRU.toLowerCase();
         const enMovie = movie.nameEN.toLowerCase();
-        const userRequestData = userRequest.toLowerCase();
-        const movieSearchResult =
+        const userRequestData = searchRequest.toLowerCase();
+        const searchResult =
           movieDescription.includes(userRequestData) ||
           ruMovie.includes(userRequestData) ||
           enMovie.includes(userRequestData);
-        return movieSearchResult;
+        return searchResult;
       });
       if (moviesSortedByUserRequest) {
-        localStorage.setItem('requestedMoviesList', JSON.stringify(moviesSortedByUserRequest));
-        localStorage.setItem('lastUserRequest', JSON.stringify(userRequest));
+        localStorage.setItem('searchedMoviesList', JSON.stringify(moviesSortedByUserRequest));
+        localStorage.setItem('searchRequest', JSON.stringify(searchRequest));
         setSearchedMovies(moviesSortedByUserRequest);
       } else {
+        setSearchedMovies([]);
       }
     }
   }
 
-  function handleAddNewMovieCard(addingMovie) {
+  function handleSearchSavedMovie(savedMoviesSearchRequest) {
+    const savedMoviesList = JSON.parse(localStorage.getItem('savedMoviesList'));
+    if (savedMoviesList.length !== 0) {
+      const moviesSortedByUserRequest = savedMoviesList.filter(i => {
+        const movieDescription = i.description.toLowerCase();
+        const ruMovie = i.nameRU.toLowerCase();
+        const enMovie = i.nameEN.toLowerCase();
+        const userRequestData = savedMoviesSearchRequest.toLowerCase();
+        const searchResult =
+          movieDescription.includes(userRequestData) ||
+          ruMovie.includes(userRequestData) ||
+          enMovie.includes(userRequestData);
+        return searchResult;
+      });
+      if (moviesSortedByUserRequest) {
+        localStorage.setItem('savedMoviesList', JSON.stringify(moviesSortedByUserRequest));
+        setSavedMovies(moviesSortedByUserRequest);
+      } else {
+        setSearchedMovies([]);
+      }
+    }
+  }
+
+  function handleLikeMovieCard(likedMovie) {
     mainApi
-      .addNewMovieCard(addingMovie)
+      .addNewMovieCard(likedMovie)
       .then((newMovieCard) => {
         const cardList = [newMovieCard, ...savedMovies];
         setSavedMovies(cardList);
@@ -64,12 +87,12 @@ function App() {
       .catch((err) => console.log(`Ошибка при добавлении новой карточки фильма: ${err}`))
   }
 
-  function handleDeleteMovieCard(deletingMovie) {
+  function handleUnlikeMovieCard(unlikedMovie) {
     mainApi
-      .deleteMovieCard(deletingMovie._id)
+      .deleteMovieCard(unlikedMovie._id)
       .then(() => {
         const localSavedMoviesCard = JSON.parse(localStorage.getItem('savedMoviesList'));
-        const rewritedSavedMovieList = localSavedMoviesCard.filter(movie => movie.movieId !== deletingMovie.movieId);
+        const rewritedSavedMovieList = localSavedMoviesCard.filter(i => i.movieId !== unlikedMovie.movieId);
         setSavedMovies(rewritedSavedMovieList);
         localStorage.setItem('savedMoviesList', JSON.stringify(rewritedSavedMovieList));
       })
@@ -123,7 +146,13 @@ function App() {
         history.push('/signin');
         setIsLoggedIn(false);
         setIsCurrentUser({});
+        setSearchedMovies([]);
+        setSavedMovies([]);
         localStorage.removeItem('login-status');
+        localStorage.removeItem('allApisMoviesList');
+        localStorage.removeItem('searchRequest');
+        localStorage.removeItem('searchedMoviesList');
+        localStorage.removeItem('savedMoviesList');
       })
       .catch((err) => {
         console.log(`Ошибка при прекращении пользователем сеанса: ${err}`);
@@ -160,11 +189,25 @@ function App() {
   }, [isLoggedIn]);
 
   useEffect(() => {
+    if (isLoggedIn && currentUser) {
+      mainApi
+        .getSavedMoviesData()
+        .then((likedCards) => {
+          setSavedMovies(likedCards);
+          localStorage.setItem('savedMoviesList', JSON.stringify(likedCards));
+        })
+        .catch((err) => console.log(
+          `Ошибка при получении первоначальных данных избранных карточек с сервера: ${err}`,
+        ));
+    }
+  }, [isLoggedIn, currentUser]);
+
+  useEffect(() => {
     if (isLoggedIn) {
       moviesApi
         .getMoviesApiData()
         .then((moviesData) => {
-          localStorage.setItem('initialMoviesList', JSON.stringify(moviesData));
+          localStorage.setItem('allApisMoviesList', JSON.stringify(moviesData));
         })
         .catch((err) => console.log(
           `Ошибка при получении первоначального списка фильмов от BeatFilm: ${err}`,
@@ -197,17 +240,20 @@ function App() {
             isLoggedIn={isLoggedIn}
             savedMovies={savedMovies}
             searchedMovies={searchedMovies}
-            handleAddNewMovieCard={handleAddNewMovieCard}
-            handleDeleteMovieCard={handleDeleteMovieCard}
-            handleUserMoviesSearch={handleUserMoviesSearch}
+            setSearchedMovies={setSearchedMovies}
+            handleSearchMovie={handleSearchMovie}
+            handleLikeMovieCard={handleLikeMovieCard}
+            handleUnlikeMovieCard={handleUnlikeMovieCard}
           />
           <ProtectedRoute
             path="/saved-movies"
             component={SavedMovies}
             isLoggedIn={isLoggedIn}
             savedMovies={savedMovies}
-            handleAddNewMovieCard={handleAddNewMovieCard}
-            handleDeleteMovieCard={handleDeleteMovieCard}
+            setSavedMovies={setSavedMovies}
+            handleLikeMovieCard={handleLikeMovieCard}
+            handleUnlikeMovieCard={handleUnlikeMovieCard}
+            handleSearchSavedMovie={handleSearchSavedMovie}
           />
           <ProtectedRoute
             path="/profile"

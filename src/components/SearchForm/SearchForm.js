@@ -1,18 +1,29 @@
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-function SearchForm({ handleUserMoviesSearch }) {
+function SearchForm({ search, isLoggedIn }) {
   const [userRequest, setUserRequest] = useState('');
+  const currentUser = useContext(CurrentUserContext);
 
     const handleSubmitRequest = (evt) => {
         evt.preventDefault();
-        handleUserMoviesSearch(userRequest);
+        search(userRequest);
     };
 
     const handleSearchFormChange = (evt) => {
       setUserRequest(evt.target.value);
-  };
+    };
+
+    useEffect(() => {
+      if (isLoggedIn && currentUser) {
+        const lastSearchRequest = JSON.parse(localStorage.getItem('searchRequest'));
+        if (lastSearchRequest) {
+          setUserRequest(lastSearchRequest);
+        }
+      }
+    }, [isLoggedIn, currentUser]);
 
   return (
     <section className="search">
@@ -23,7 +34,7 @@ function SearchForm({ handleUserMoviesSearch }) {
             className="search__input"
             type="text"
             name="search"
-            // value={userSearchRequest || ''}
+            value={userRequest}
             onChange={handleSearchFormChange}
             minLength="2"
             maxLength="40"

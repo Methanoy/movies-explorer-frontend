@@ -1,20 +1,20 @@
 import './MoviesCard.css';
 import { makeImgURL, convertMinutesToHours } from '../../../utils/utils';
 
-function MoviesCard({ movie, isSavedMoviesLocation, handleAddNewMovieCard, handleDeleteMovieCard, savedMovies }) {
+function MoviesCard({ movie, isSavedMoviesLocation, handleLikeMovieCard, handleUnlikeMovieCard, savedMovies }) {
 
-  const isLiked = savedMovies.some((i) => i.movieId === movie.id);
-  const findLikedCard = savedMovies.filter((i) => i.movieId === movie.id);
+  const isAnyLikedCard = savedMovies.some((i) => i.movieId === movie.id);
+  const likedCard = savedMovies.filter((i) => i.movieId === movie.id);
 
   function handleDeleteClick() {
-    handleDeleteMovieCard(movie);
+    handleUnlikeMovieCard(movie);
   }
 
   function handleLikeToogle() {
-    if (isLiked) {
-      handleDeleteMovieCard(findLikedCard[0]);
+    if (isAnyLikedCard) {
+      handleUnlikeMovieCard(likedCard[0]);
     } else {
-      handleAddNewMovieCard(movie);
+      handleLikeMovieCard(movie);
     }
   }
 
@@ -30,7 +30,7 @@ function MoviesCard({ movie, isSavedMoviesLocation, handleAddNewMovieCard, handl
         {!isSavedMoviesLocation ? (
           <button
             className={`card__favourite-btn card__favourite-btn_${
-              isLiked ? 'active' : 'inactive'
+              isAnyLikedCard ? 'active' : 'inactive'
             }`}
             onClick={handleLikeToogle}
             type="button"
@@ -48,7 +48,7 @@ function MoviesCard({ movie, isSavedMoviesLocation, handleAddNewMovieCard, handl
       <a href={movie.trailerLink} target="_blank" rel="noopener noreferrer">
         <img
           className="card__img"
-          src={makeImgURL(movie.image.url)}
+          src={isSavedMoviesLocation ? movie.image : makeImgURL(movie.image.url)}
           title={movie.nameRU}
           alt={movie.description}
         />

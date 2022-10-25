@@ -1,32 +1,38 @@
 import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-// import { useContext, useEffect, useState } from 'react';
-// import CurrentUserContext from '../../contexts/CurrentUserContext';
+import { useEffect, useContext } from 'react';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-function Movies({ handleDeleteMovieCard, handleAddNewMovieCard, handleUserMoviesSearch, isLoggedIn, searchedMovies, savedMovies }) {
-  // const currentUser = useContext(CurrentUserContext);
-  // const [searchededMovies, setSearchedMovies] = useState([]);
+function Movies({
+  handleUnlikeMovieCard,
+  handleLikeMovieCard,
+  handleSearchMovie,
+  isLoggedIn,
+  setSearchedMovies,
+  searchedMovies,
+  savedMovies,
+}) {
 
-  // useEffect(() => {
-  //   if (isLoggedIn && currentUser) {
-  //     if (localStorage.getItem('requestedMoviesList')) {
-  //       setSearchedMovies(JSON.parse(localStorage.getItem('requestedMoviesList')));
-  //     }
-  //   }
-  // }, [isLoggedIn, currentUser]);
+  const currentUser = useContext(CurrentUserContext);
+
+  useEffect(() => {
+    if (isLoggedIn && currentUser) {
+      const localSearchMoviesCard = JSON.parse(localStorage.getItem('searchedMoviesList'));
+      if (localSearchMoviesCard) {
+        setSearchedMovies(localSearchMoviesCard);
+      }
+    }
+  }, [isLoggedIn, currentUser, setSearchedMovies]);
 
   return (
     <main className="movies">
-      <SearchForm
-        isLoggedIn={isLoggedIn}
-        handleUserMoviesSearch={handleUserMoviesSearch}
-      />
+      <SearchForm isLoggedIn={isLoggedIn} search={handleSearchMovie} />
       <MoviesCardList
         movies={searchedMovies}
         savedMovies={savedMovies}
-        handleAddNewMovieCard={handleAddNewMovieCard}
-        handleDeleteMovieCard={handleDeleteMovieCard}
+        handleLikeMovieCard={handleLikeMovieCard}
+        handleUnlikeMovieCard={handleUnlikeMovieCard}
       />
     </main>
   );
