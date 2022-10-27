@@ -3,13 +3,15 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import { useState, useEffect, useContext } from 'react';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-function SearchForm({ search, isLoggedIn }) {
+function SearchForm({ search, isLoggedIn, handleShortMoviesFilter }) {
   const [userRequest, setUserRequest] = useState('');
+  const [isSearchFormSubmit, setIsSearchFormSubmit] = useState(false);
   const currentUser = useContext(CurrentUserContext);
 
     const handleSubmitRequest = (evt) => {
         evt.preventDefault();
         search(userRequest);
+        setIsSearchFormSubmit(true);
     };
 
     const handleSearchFormChange = (evt) => {
@@ -47,7 +49,7 @@ function SearchForm({ search, isLoggedIn }) {
             type="submit"
             aria-label="Кнопка поиска фильмов"
           ></button>
-          <FilterCheckbox />
+          <FilterCheckbox isSearchFormSubmit={isSearchFormSubmit} handleShortMoviesFilter={handleShortMoviesFilter} isLoggedIn={isLoggedIn} />
         </form>
       </div>
     </section>

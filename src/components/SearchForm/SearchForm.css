@@ -1,6 +1,7 @@
 .search {
     padding: 70px 70px 10px;
     background-color: #FAFAFA;
+    position: relative;
 }
 
 .search__size-limiter {

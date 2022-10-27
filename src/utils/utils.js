@@ -23,7 +23,9 @@ function convertMinutesToHours(movieDuration) {
   }
 }
 
+const shortMoviesList = (moviesList) => moviesList.filter(i => i.duration <= 40);
+
 const makeImgURL = (movieApiImgPath) => `${MOVIES_IMG_URL}${movieApiImgPath}`;
 
 
-export { MAIN_API_URL, MOVIES_API_URL, MOVIES_IMG_URL, handleResponse, convertMinutesToHours, makeImgURL };
+export { MAIN_API_URL, MOVIES_API_URL, MOVIES_IMG_URL, handleResponse, convertMinutesToHours, makeImgURL, shortMoviesList };

@@ -6,11 +6,6 @@ function Navigation({ isLoggedIn }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isLinkClicked, setIsLinkClicked] = useState(false);
 
-    // function onSignout() {
-    //     setIsSmallMenuOpen(false);
-    //     setLogOut();
-    // }
-
     function toggleSidebarBtn() {
         setIsSidebarOpen(!isSidebarOpen);
     }

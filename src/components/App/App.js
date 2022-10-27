@@ -16,6 +16,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import * as auth from '../../utils/auth';
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
+import { shortMoviesList } from '../../utils/utils';
 /* contexts */
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
@@ -48,8 +49,10 @@ function App() {
         localStorage.setItem('searchRequest', JSON.stringify(searchRequest));
         setSearchedMovies(moviesSortedByUserRequest);
       } else {
-        setSearchedMovies([]);
+        /* здесь должно быть сообщение об отсутствии результатов поиска */
       }
+    } else {
+    /* здесь должно быть сообщение об отсутствии результатов поиска */
     }
   }
 
@@ -68,11 +71,41 @@ function App() {
         return searchResult;
       });
       if (moviesSortedByUserRequest) {
-        localStorage.setItem('savedMoviesList', JSON.stringify(moviesSortedByUserRequest));
+        localStorage.setItem('sortedSavedMoviesList', JSON.stringify(moviesSortedByUserRequest));
         setSavedMovies(moviesSortedByUserRequest);
       } else {
-        setSearchedMovies([]);
+        /* здесь должно быть сообщение об отсутствии результатов поиска */
       }
+    } else {
+      /* здесь должно быть сообщение об отсутствии результатов поиска */
+      }
+  }
+
+  function filterShortSearchMovies(isFilterOn) {
+    if (searchedMovies && isFilterOn) {
+      const filteredList = shortMoviesList(searchedMovies)
+      localStorage.setItem('shortSearchedMoviesList', JSON.stringify(filteredList));
+      localStorage.setItem('isFilterOn', JSON.stringify(true));
+      setSearchedMovies(filteredList);
+    } else if (!isFilterOn && searchedMovies) {
+      setSearchedMovies(JSON.parse(localStorage.getItem('searchedMoviesList')));
+      localStorage.setItem('isFilterOn', JSON.stringify(false));
+    } else {
+      setSearchedMovies([]);
+      /* здесь будет установка ошибки поиска */
+    }
+  }
+
+  function filterShortSavedMovies(isFilterOn) {
+    if (savedMovies && isFilterOn) {
+      const filteredList = shortMoviesList(savedMovies)
+      localStorage.setItem('shortSavedMoviesList', JSON.stringify(filteredList));
+      setSavedMovies(filteredList);
+    } else if (!isFilterOn && savedMovies) {
+      setSavedMovies(JSON.parse(localStorage.getItem('savedMoviesList')));
+    } else {
+      setSavedMovies([]);
+      /* здесь будет установка ошибки поиска */
     }
   }
 
@@ -244,6 +277,7 @@ function App() {
             handleSearchMovie={handleSearchMovie}
             handleLikeMovieCard={handleLikeMovieCard}
             handleUnlikeMovieCard={handleUnlikeMovieCard}
+            filterShortSearchMovies={filterShortSearchMovies}
           />
           <ProtectedRoute
             path="/saved-movies"
@@ -254,6 +288,7 @@ function App() {
             handleLikeMovieCard={handleLikeMovieCard}
             handleUnlikeMovieCard={handleUnlikeMovieCard}
             handleSearchSavedMovie={handleSearchSavedMovie}
+            filterShortSavedMovies={filterShortSavedMovies}
           />
           <ProtectedRoute
             path="/profile"

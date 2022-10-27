@@ -5,29 +5,40 @@ import { useEffect, useContext } from 'react';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 function Movies({
+  filterShortSearchMovies,
   handleUnlikeMovieCard,
   handleLikeMovieCard,
   handleSearchMovie,
-  isLoggedIn,
   setSearchedMovies,
   searchedMovies,
   savedMovies,
+  isLoggedIn,
 }) {
 
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     if (isLoggedIn && currentUser) {
-      const localSearchMoviesCard = JSON.parse(localStorage.getItem('searchedMoviesList'));
-      if (localSearchMoviesCard) {
-        setSearchedMovies(localSearchMoviesCard);
+      const localFilterStatus = JSON.parse(localStorage.getItem('isFilterOn'));
+      const shortMoviesList = JSON.parse(localStorage.getItem('shortSearchedMoviesList'));
+      const searchedMoviesList = JSON.parse(localStorage.getItem('searchedMoviesList'));
+      if (localFilterStatus) {
+        setSearchedMovies(shortMoviesList);
+      } else if (searchedMoviesList) {
+        setSearchedMovies(searchedMoviesList);
+      } else {
+        setSearchedMovies([]);
       }
     }
   }, [isLoggedIn, currentUser, setSearchedMovies]);
 
   return (
     <main className="movies">
-      <SearchForm isLoggedIn={isLoggedIn} search={handleSearchMovie} />
+      <SearchForm
+        isLoggedIn={isLoggedIn}
+        search={handleSearchMovie}
+        handleShortMoviesFilter={filterShortSearchMovies}
+      />
       <MoviesCardList
         movies={searchedMovies}
         savedMovies={savedMovies}

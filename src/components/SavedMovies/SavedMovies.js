@@ -6,30 +6,43 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
 
 
-function SavedMovies({ handleSearchSavedMovie, handleLikeMovieCard, handleUnlikeMovieCard, savedMovies, setSavedMovies, isLoggedIn }) {
-  const isSavedMoviesLocation = useLocation().pathname === "/saved-movies";
+function SavedMovies({
+  isLoggedIn,
+  savedMovies,
+  setSavedMovies,
+  handleLikeMovieCard,
+  handleUnlikeMovieCard,
+  filterShortSavedMovies,
+  handleSearchSavedMovie,
+}) {
+  const isSavedMoviesLocation = useLocation().pathname === '/saved-movies';
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     if (isLoggedIn && currentUser) {
-      const localSavesMoviesCard = JSON.parse(
-        localStorage.getItem('searchedMoviesList')
+      const localSavedMoviesCard = JSON.parse(
+        localStorage.getItem('savedMoviesList')
       );
-      if (localSavesMoviesCard) {
-        setSavedMovies(JSON.parse(localStorage.getItem('savedMoviesList')));
+      if (localSavedMoviesCard) {
+        setSavedMovies(localSavedMoviesCard);
       }
     }
   }, [isLoggedIn, currentUser, setSavedMovies]);
 
   return (
     <section className="saved-movies">
-      <SearchForm search={handleSearchSavedMovie} isSavedMoviesLocation={isSavedMoviesLocation} />
+      <SearchForm
+        search={handleSearchSavedMovie}
+        isSavedMoviesLocation={isSavedMoviesLocation}
+        handleShortMoviesFilter={filterShortSavedMovies}
+      />
       <MoviesCardList
         movies={savedMovies}
         savedMovies={savedMovies}
-        isSavedMoviesLocation={isSavedMoviesLocation}
         handleLikeMovieCard={handleLikeMovieCard}
+        isSavedMoviesLocation={isSavedMoviesLocation}
         handleUnlikeMovieCard={handleUnlikeMovieCard}
+        filterShortSavedMovies={filterShortSavedMovies}
       />
     </section>
   );
