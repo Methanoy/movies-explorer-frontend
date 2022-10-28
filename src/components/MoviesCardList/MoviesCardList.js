@@ -17,15 +17,13 @@ function MoviesCardList(props) {
           />
         ))}
       </ul>
-      {!props.isSavedMoviesLocation && (
         <button
-          className="movies-card-list__add-more-btn"
+          className={`movies-card-list__add-more-btn ${props.isSavedMoviesLocation && 'movies-card-list__add-more-btn_hidden'}`}
           type="button"
           aria-label="Вывести на экран больше карточек фильмов"
         >
           Ещё
         </button>
-      )}
     </section>
   );
 }

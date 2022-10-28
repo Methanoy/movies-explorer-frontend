@@ -164,7 +164,7 @@
         height: 100vh;
         background-color: rgba(0, 0, 0, .3);
         transition: all .3s linear;
-        z-index: 2;
+        z-index: 11;
     }
 
     .navigation__hide-item:first-of-type {

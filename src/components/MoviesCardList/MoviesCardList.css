@@ -14,7 +14,6 @@
     column-gap: 24px;
     row-gap: 30px;
     max-width: 1280px;
-    min-height: 100px;
     width: 100%;
     margin: 0 auto;
     padding: 0 0 50px;
@@ -31,6 +30,10 @@
     line-height: 15px;
     transition: all .3s linear 0s;
     cursor: pointer;
+}
+
+.movies-card-list__add-more-btn_hidden {
+    visibility: hidden;
 }
 
 .movies-card-list__add-more-btn:hover {

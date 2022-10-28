@@ -19,12 +19,15 @@ import moviesApi from '../../utils/MoviesApi';
 import { shortMoviesList } from '../../utils/utils';
 /* contexts */
 import CurrentUserContext from '../../contexts/CurrentUserContext';
+import Preloader from '../Preloader/Preloader';
 
 function App() {
   const history = useHistory();
   const headerPaths = ['/', '/movies', '/saved-movies', '/profile'];
   const footerPaths = ["/", "/movies", "/saved-movies"];
 
+  const [isDataLoading, setIsDataLoading] = useState(false);
+  const [isPreloader, setIsPreloader] = useState(false);
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const [currentUser, setIsCurrentUser] = useState({});
@@ -54,6 +57,7 @@ function App() {
     } else {
     /* здесь должно быть сообщение об отсутствии результатов поиска */
     }
+    setIsDataLoading(false);
   }
 
   function handleSearchSavedMovie(savedMoviesSearchRequest) {
@@ -133,14 +137,12 @@ function App() {
   }
 
   function handleUpdateUser(data) {
-    // тут будет прелоадер
     mainApi
       .editUserInfo(data)
       .then((userData) => {
         setIsCurrentUser(userData);
       })
       .catch((err) => console.log(`Ошибка при редактировании данных пользователя: ${err}`))
-      //добавить final с прелоадером
       //добавить уведомление о результатах обновления профиля
   }
 
@@ -181,15 +183,11 @@ function App() {
         setIsCurrentUser({});
         setSearchedMovies([]);
         setSavedMovies([]);
-        localStorage.removeItem('login-status');
-        localStorage.removeItem('allApisMoviesList');
-        localStorage.removeItem('searchRequest');
-        localStorage.removeItem('searchedMoviesList');
-        localStorage.removeItem('savedMoviesList');
+        localStorage.clear();
       })
       .catch((err) => {
         console.log(`Ошибка при прекращении пользователем сеанса: ${err}`);
-      });
+      })
   }
 
   useEffect(() => {
@@ -204,7 +202,7 @@ function App() {
             history.push('/movies');
           }
         })
-        .catch((err) => console.log(`Ошибка при авторизации пользователя: ${err}`));
+        .catch((err) => console.log(`Ошибка при авторизации пользователя: ${err}`))
     }
   }, [history]);
 
@@ -217,7 +215,7 @@ function App() {
         })
         .catch((err) => console.log(
           `Ошибка при получении первоначальных данных пользователя с сервера: ${err}`,
-        ));
+        ))
     }
   }, [isLoggedIn]);
 
@@ -231,12 +229,13 @@ function App() {
         })
         .catch((err) => console.log(
           `Ошибка при получении первоначальных данных избранных карточек с сервера: ${err}`,
-        ));
+        ))
     }
   }, [isLoggedIn, currentUser]);
 
   useEffect(() => {
     if (isLoggedIn) {
+      setIsDataLoading(true);
       moviesApi
         .getMoviesApiData()
         .then((moviesData) => {
@@ -244,70 +243,76 @@ function App() {
         })
         .catch((err) => console.log(
           `Ошибка при получении первоначального списка фильмов от BeatFilm: ${err}`,
-        ));
+        ))
+        .finally(() => setIsDataLoading(false));
     }
   }, [isLoggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className="app">
-        <Route exact path={headerPaths}>
-          <Header isLoggedIn={isLoggedIn} />
-        </Route>
-
-        <Switch>
-          <Route exact path="/">
-            <Main />
+      {isDataLoading ? (
+        <Preloader isPreloader={true} />
+      ) : (
+        <div className="app">
+          <Route exact path={headerPaths}>
+            <Header isLoggedIn={isLoggedIn} />
           </Route>
 
-          <Route exact path="/signup">
-            <Register onSignup={onSignup} />
+          <Switch>
+            <Route exact path="/">
+              <Main />
+            </Route>
+
+            <Route exact path="/signup">
+              <Register onSignup={onSignup} />
+            </Route>
+            <Route exact path="/signin">
+              <Login onLogin={onLogin} />
+            </Route>
+
+            <ProtectedRoute
+              path="/movies"
+              component={Movies}
+              isLoggedIn={isLoggedIn}
+              savedMovies={savedMovies}
+              searchedMovies={searchedMovies}
+              setSearchedMovies={setSearchedMovies}
+              handleSearchMovie={handleSearchMovie}
+              handleLikeMovieCard={handleLikeMovieCard}
+              handleUnlikeMovieCard={handleUnlikeMovieCard}
+              filterShortSearchMovies={filterShortSearchMovies}
+            />
+            <ProtectedRoute
+              path="/saved-movies"
+              component={SavedMovies}
+              isLoggedIn={isLoggedIn}
+              savedMovies={savedMovies}
+              setSavedMovies={setSavedMovies}
+              handleLikeMovieCard={handleLikeMovieCard}
+              handleUnlikeMovieCard={handleUnlikeMovieCard}
+              handleSearchSavedMovie={handleSearchSavedMovie}
+              filterShortSavedMovies={filterShortSavedMovies}
+            />
+            <ProtectedRoute
+              path="/profile"
+              component={Profile}
+              onSignout={onSignout}
+              isLoggedIn={isLoggedIn}
+              handleUpdateUser={handleUpdateUser}
+            />
+
+            <Route path="*">
+              <NotFound history={history} />
+            </Route>
+          </Switch>
+
+          <Route exact path={footerPaths}>
+            <Footer />
           </Route>
-          <Route exact path="/signin">
-            <Login onLogin={onLogin} />
-          </Route>
 
-          <ProtectedRoute
-            path="/movies"
-            component={Movies}
-            isLoggedIn={isLoggedIn}
-            savedMovies={savedMovies}
-            searchedMovies={searchedMovies}
-            setSearchedMovies={setSearchedMovies}
-            handleSearchMovie={handleSearchMovie}
-            handleLikeMovieCard={handleLikeMovieCard}
-            handleUnlikeMovieCard={handleUnlikeMovieCard}
-            filterShortSearchMovies={filterShortSearchMovies}
-          />
-          <ProtectedRoute
-            path="/saved-movies"
-            component={SavedMovies}
-            isLoggedIn={isLoggedIn}
-            savedMovies={savedMovies}
-            setSavedMovies={setSavedMovies}
-            handleLikeMovieCard={handleLikeMovieCard}
-            handleUnlikeMovieCard={handleUnlikeMovieCard}
-            handleSearchSavedMovie={handleSearchSavedMovie}
-            filterShortSavedMovies={filterShortSavedMovies}
-          />
-          <ProtectedRoute
-            path="/profile"
-            component={Profile}
-            onSignout={onSignout}
-            isLoggedIn={isLoggedIn}
-            handleUpdateUser={handleUpdateUser}
-          />
-
-          <Route path="*">
-            <NotFound history={history} />
-          </Route>
-        </Switch>
-
-        <Route exact path={footerPaths}>
-          <Footer />
-        </Route>
-
-      </div>
+          <Preloader isPreloader={isPreloader} />
+        </div>
+      )}
     </CurrentUserContext.Provider>
   );
 }
