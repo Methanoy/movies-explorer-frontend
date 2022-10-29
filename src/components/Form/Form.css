@@ -100,7 +100,7 @@
 .form__submit-btn {
     width: 396px;
     height: 45px;
-    margin: 69px 0 16px 0;
+    margin: 49px 0 16px 0;
     border: none;
     border-radius: 3px;
     font-weight: 500;
@@ -119,6 +119,20 @@
 .form__submit-btn:active {
     box-shadow: 0.1px 0.1px 3px #000 inset;
     transform: scale(0.9);
+}
+
+.form__submit-btn_locked {
+    background-color: #A0A0A0;
+    cursor: default;
+}
+
+.form__submit-btn_locked:hover {
+    box-shadow: none;
+}
+
+.form__submit-btn_locked:active {
+    box-shadow: none;
+    transform: none;
 }
 
 .form__redirect-text {
@@ -156,7 +170,7 @@
     }
 
     .form__img-wrapper {
-        padding-top: 56px;
+        padding-top: 36px;
     }
 
     .form__btn-list {
@@ -164,12 +178,12 @@
     }
 
     .form__greeting-title {
-        padding: 50px 0 80px;
+        padding: 40px 0 60px;
     }
     
     .form__submit-btn {
         width: 260px;
-        margin: 157px 0 14px 0;
+        margin: 117px 0 14px 0;
         font-size: 12px;
         line-height: 15px;
     }

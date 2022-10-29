@@ -2,9 +2,10 @@ import './Form.css';
 import { React } from 'react';
 import { Link } from 'react-router-dom';
 import headerLogo from '../../images/header__logo.svg';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 function Form(props) {
-
+  const { isValid } = useFormWithValidation();
     return (
       <div className="form__container">
         {props.isProfileLocation ? null : (
@@ -20,7 +21,7 @@ function Form(props) {
         )}
         <h1 className={!props.isProfileLocation ? "form__greeting-title" : "form__greeting-title_profile"}>{props.titleText}</h1>
         {props.isProfileLocation ? (
-          <form className="form" onSubmit={props.handleSubmit}>
+          <form className="form" onSubmit={props.handleSubmit} noValidate>
             {props.children}
             <ul className="form__btn-list">
               <li className="form__btn-item">
@@ -45,12 +46,13 @@ function Form(props) {
             </ul>
           </form>
         ) : (
-          <form className="form" onSubmit={props.handleSubmit}>
+          <form className="form" onSubmit={props.handleSubmit} noValidate>
             {props.children}
             <button
-              className="form__submit-btn"
+              className={`form__submit-btn ${!props.isValid && 'form__submit-btn_locked'}`}
               type="submit"
               aria-label={props.buttonText}
+              disabled={!props.isValid}
             >
               {props.buttonText}
             </button>
