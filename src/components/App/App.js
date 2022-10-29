@@ -20,6 +20,7 @@ import { shortMoviesList } from '../../utils/utils';
 /* contexts */
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import Preloader from '../Preloader/Preloader';
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 function App() {
   const history = useHistory();
@@ -27,15 +28,20 @@ function App() {
   const footerPaths = ["/", "/movies", "/saved-movies"];
 
   const [isDataLoading, setIsDataLoading] = useState(false);
+  const [isPopupParams, setIsPopupParams] = useState({ isOpen: false, status: true, text: '' })
   const [isPreloader, setIsPreloader] = useState(false);
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const [currentUser, setIsCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  function closePopup() {
+    setIsPopupParams({ ...isPopupParams, isOpen: false })
+  }
+
   function handleSearchMovie(searchRequest) {
     const initialMoviesList = JSON.parse(localStorage.getItem('allApisMoviesList'));
-    if (initialMoviesList.length !== 0) {
+    if (initialMoviesList) {
       const moviesSortedByUserRequest = initialMoviesList.filter(movie => {
         const movieDescription = movie.description.toLowerCase();
         const ruMovie = movie.nameRU.toLowerCase();
@@ -47,22 +53,21 @@ function App() {
           enMovie.includes(userRequestData);
         return searchResult;
       });
-      if (moviesSortedByUserRequest) {
+      if (moviesSortedByUserRequest.length !== 0) {
         localStorage.setItem('searchedMoviesList', JSON.stringify(moviesSortedByUserRequest));
         localStorage.setItem('searchRequest', JSON.stringify(searchRequest));
         setSearchedMovies(moviesSortedByUserRequest);
       } else {
-        /* здесь должно быть сообщение об отсутствии результатов поиска */
+        setIsPopupParams({ isOpen: true, status: false, text: 'Ничего не найдено.' });
       }
     } else {
-    /* здесь должно быть сообщение об отсутствии результатов поиска */
+      setIsPopupParams({ isOpen: true, status: false, text: 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.' });
     }
-    setIsDataLoading(false);
   }
 
   function handleSearchSavedMovie(savedMoviesSearchRequest) {
     const savedMoviesList = JSON.parse(localStorage.getItem('savedMoviesList'));
-    if (savedMoviesList.length !== 0) {
+    if (savedMoviesList) {
       const moviesSortedByUserRequest = savedMoviesList.filter(i => {
         const movieDescription = i.description.toLowerCase();
         const ruMovie = i.nameRU.toLowerCase();
@@ -74,14 +79,14 @@ function App() {
           enMovie.includes(userRequestData);
         return searchResult;
       });
-      if (moviesSortedByUserRequest) {
+      if (moviesSortedByUserRequest.length !== 0) {
         localStorage.setItem('sortedSavedMoviesList', JSON.stringify(moviesSortedByUserRequest));
         setSavedMovies(moviesSortedByUserRequest);
       } else {
-        /* здесь должно быть сообщение об отсутствии результатов поиска */
+        setIsPopupParams({ isOpen: true, status: false, text: 'По указанному запросу фильм в избранном не найден.' });
       }
     } else {
-      /* здесь должно быть сообщение об отсутствии результатов поиска */
+      setIsPopupParams({ isOpen: true, status: false, text: 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.' });
       }
   }
 
@@ -96,7 +101,6 @@ function App() {
       localStorage.setItem('isFilterOn', JSON.stringify(false));
     } else {
       setSearchedMovies([]);
-      /* здесь будет установка ошибки поиска */
     }
   }
 
@@ -109,7 +113,6 @@ function App() {
       setSavedMovies(JSON.parse(localStorage.getItem('savedMoviesList')));
     } else {
       setSavedMovies([]);
-      /* здесь будет установка ошибки поиска */
     }
   }
 
@@ -121,7 +124,7 @@ function App() {
         setSavedMovies(cardList);
         localStorage.setItem('savedMoviesList', JSON.stringify(cardList));
       })
-      .catch((err) => console.log(`Ошибка при добавлении новой карточки фильма: ${err}`))
+      .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при добавлении карточки в избранное. ${err}` }));
   }
 
   function handleUnlikeMovieCard(unlikedMovie) {
@@ -133,7 +136,7 @@ function App() {
         setSavedMovies(rewritedSavedMovieList);
         localStorage.setItem('savedMoviesList', JSON.stringify(rewritedSavedMovieList));
       })
-      .catch((err) => console.log(`Ошибка при удалении карточки фильма: ${err}`))
+      .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при удалении карточки из избранного. ${err}` }));
   }
 
   function handleUpdateUser(data) {
@@ -141,9 +144,9 @@ function App() {
       .editUserInfo(data)
       .then((userData) => {
         setIsCurrentUser(userData);
+        setIsPopupParams({ isOpen: true, status: true, text: 'Данные обновлены!' });
       })
-      .catch((err) => console.log(`Ошибка при редактировании данных пользователя: ${err}`))
-      //добавить уведомление о результатах обновления профиля
+      .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при обновлении профиля. ${err}` }));
   }
 
   function onSignup(userName, userEmail, userPassword) {
@@ -152,11 +155,10 @@ function App() {
       .then((res) => {
         if (res) {
           history.push('/signin');
+          setIsPopupParams({ isOpen: true, status: true, text: 'Вы успешно зарегистрировались!' });
         }
       })
-      .catch((err) => {
-        console.log(`Ошибка при регистрации пользователя: ${err}`);
-      });
+      .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при регистрации. ${err}` }));
   }
 
   function onLogin(userEmail, userPassword) {
@@ -169,9 +171,7 @@ function App() {
           localStorage.setItem('login-status', 'logged-in');
         }
       })
-      .catch((err) => {
-        console.log(`Ошибка при логине пользователя: ${err}`);
-      });
+      .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка аутентификации. ${err}` }));
   }
 
   function onSignout() {
@@ -185,9 +185,7 @@ function App() {
         setSavedMovies([]);
         localStorage.clear();
       })
-      .catch((err) => {
-        console.log(`Ошибка при прекращении пользователем сеанса: ${err}`);
-      })
+      .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при завершении сеанса. ${err}` }));
   }
 
   useEffect(() => {
@@ -202,7 +200,7 @@ function App() {
             history.push('/movies');
           }
         })
-        .catch((err) => console.log(`Ошибка при авторизации пользователя: ${err}`))
+        .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка аутентифиуации. ${err}` }));
     }
   }, [history]);
 
@@ -213,9 +211,7 @@ function App() {
         .then((userData) => {
           setIsCurrentUser(userData);
         })
-        .catch((err) => console.log(
-          `Ошибка при получении первоначальных данных пользователя с сервера: ${err}`,
-        ))
+        .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при загрузке профиля. ${err}` }));
     }
   }, [isLoggedIn]);
 
@@ -227,9 +223,7 @@ function App() {
           setSavedMovies(likedCards);
           localStorage.setItem('savedMoviesList', JSON.stringify(likedCards));
         })
-        .catch((err) => console.log(
-          `Ошибка при получении первоначальных данных избранных карточек с сервера: ${err}`,
-        ))
+        .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при получении избранных карточек. ${err}` }));
     }
   }, [isLoggedIn, currentUser]);
 
@@ -241,9 +235,7 @@ function App() {
         .then((moviesData) => {
           localStorage.setItem('allApisMoviesList', JSON.stringify(moviesData));
         })
-        .catch((err) => console.log(
-          `Ошибка при получении первоначального списка фильмов от BeatFilm: ${err}`,
-        ))
+        .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при загрузке данных сервиса BeatFilm. ${err}` }))
         .finally(() => setIsDataLoading(false));
     }
   }, [isLoggedIn]);
@@ -311,6 +303,8 @@ function App() {
           </Route>
 
           <Preloader isPreloader={isPreloader} />
+
+          <InfoTooltip closePopup={closePopup} isPopupParams={isPopupParams}/>
         </div>
       )}
     </CurrentUserContext.Provider>

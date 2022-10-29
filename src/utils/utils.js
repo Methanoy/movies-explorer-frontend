@@ -9,7 +9,7 @@ const handleResponse = (res) => {
     return res.json();
   }
   return Promise.reject(new Error(
-    `Okay, Houston, we've had a problem here: ${res.status}`,
+    `${res.status}`,
   ));
 };
 
