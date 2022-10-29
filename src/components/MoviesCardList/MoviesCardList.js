@@ -5,24 +5,30 @@ import useScreenSize from '../../hooks/useScreenSize';
 
 function MoviesCardList(props) {
   const screenSize = useScreenSize();
-  const [cardDisplayParam, setCardDisplayParam] = useState({ cardsAmount: 999, addMore: 3 });
+  const [cardsDisplayParam, setCardsDisplayParam] = useState({});
+  const areAllCardsDisplayed = cardsDisplayParam.cardsAmount >= props.movies.length;
   
   useEffect(() => {
     if (!props.isSavedMoviesLocation) {
       if (screenSize > 1279) {
-        setCardDisplayParam({ cardsAmount: 12, addMore: 3 });
+        setCardsDisplayParam({ cardsAmount: 12, addMore: 3 });
       } else if (screenSize > 766 && screenSize < 1280) {
-        setCardDisplayParam({ cardsAmount: 8, addMore: 2 })
+        setCardsDisplayParam({ cardsAmount: 8, addMore: 2 })
       } else {
-        setCardDisplayParam({ cardsAmount: 5, addMore: 1 })
+        setCardsDisplayParam({ cardsAmount: 5, addMore: 2 })
       }
     }
   }, [screenSize, props.isSavedMoviesLocation])
 
+  function handleAddMoreBtn() {
+      const newCardsAmount = cardsDisplayParam.cardsAmount + cardsDisplayParam.addMore;
+      setCardsDisplayParam({ cardsAmount: newCardsAmount, addMore: cardsDisplayParam.addMore });
+  }
+
   return (
     <section className="movies-card-list">
       <ul className="movies-card-list__items-container">
-        {props.movies.slice(0, cardDisplayParam.cardsAmount).map((movie) => (
+        {props.movies.slice(0, cardsDisplayParam.cardsAmount).map((movie) => (
           <MoviesCard
             movie={movie}
             key={movie.id || movie.movieId}
@@ -34,9 +40,10 @@ function MoviesCardList(props) {
         ))}
       </ul>
         <button
-          className={`movies-card-list__add-more-btn ${props.isSavedMoviesLocation && 'movies-card-list__add-more-btn_hidden'}`}
+          className={`movies-card-list__add-more-btn ${(props.isSavedMoviesLocation || areAllCardsDisplayed) && 'movies-card-list__add-more-btn_hidden'}`}
           type="button"
           aria-label="Вывести на экран больше карточек фильмов"
+          onClick={handleAddMoreBtn}
         >
           Ещё
         </button>
