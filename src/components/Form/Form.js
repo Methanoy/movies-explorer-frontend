@@ -2,10 +2,9 @@ import './Form.css';
 import { React } from 'react';
 import { Link } from 'react-router-dom';
 import headerLogo from '../../images/header__logo.svg';
-import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 function Form(props) {
-  const { isValid } = useFormWithValidation();
+
     return (
       <div className="form__container">
         {props.isProfileLocation ? null : (
@@ -26,7 +25,7 @@ function Form(props) {
             <ul className="form__btn-list">
               <li className="form__btn-item">
                 <button
-                className={`form__edit-btn ${props.isUserDataChange && "form__edit-btn_visible"}`}
+                className={`form__edit-btn ${(props.isUserDataChange && props.isValid) && "form__edit-btn_visible"}`}
                 type="submit"
                 aria-label={props.editBtnText}
               >
