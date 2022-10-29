@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 function useScreenSize() {
-    const currentScreenSize = window.innerWidth;
+    const currentScreenSize = useCallback(() => window.innerWidth, []);
     const [screenSize, setScreenSize] = useState(currentScreenSize);
 
     useEffect(() => {
