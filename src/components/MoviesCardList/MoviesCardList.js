@@ -1,7 +1,10 @@
 import './MoviesCardList.css';
 import MoviesCard from './MoviesCard/MoviesCard';
+import useScreenSize from '../../hooks/useScreenSize';
 
 function MoviesCardList(props) {
+  const screenSize = useScreenSize();
+  console.log(screenSize);
 
   return (
     <section className="movies-card-list">
