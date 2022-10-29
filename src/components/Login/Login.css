@@ -24,9 +24,8 @@
     width: 380px;
     height: 46px;
     padding-left: 10px;
-    margin-bottom: 20px;
-    border: 2px solid #F4F4F4;
     border-radius: 8px;
+    border: 2px solid #F4F4F4;
     background-color: #F4F4F4;
     caret-color: #3456F3;
     transition: all .2s linear 0s;
@@ -41,7 +40,29 @@
     box-shadow: 0.1px 0.1px 2px #3456F3;
 }
 
-.login__input:last-of-type {
+.login__input_error {
+    color: #EE3465;
+}
+
+.login__input_error:focus {
+    border: 2px solid #EE3465;
+}
+
+.login__input_error:hover {
+    box-shadow: 0.1px 0.1px 5px #EE3465;
+}
+
+.login__input-error {
+    width: 396px;
+    margin-top: 5px;
+    min-height: 30px;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #EE3465;
+}
+
+.login__input-error:last-of-type {
     margin-bottom: 110px;
 }
 
@@ -51,8 +72,12 @@
         width: 245px;
     }
 
-    .login__input:last-of-type {
-        margin-bottom: 210px;
+    .login__input-error {
+        width: 260px;
+    }
+
+    .login__input-error:last-of-type {
+        margin-bottom: 110px;
     }
 }
 

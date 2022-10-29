@@ -1,24 +1,17 @@
 import './Login.css';
-import { React, useState } from 'react';
+import { React } from 'react';
 import { useLocation } from 'react-router-dom';
 import Form from '../Form/Form';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 function Login({ onLogin }) {
-    const [userEmail, setUserEmail] = useState('');
-    const [userPassword, setUserPassword] = useState('');
     const isLoginLocation = useLocation().pathname === "/signin";
+    const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        onLogin(userEmail, userPassword);
-    };
-
-    const handleEmailChange = (evt) => {
-        setUserEmail(evt.target.value);
-    };
-
-    const handlePasswordChange = (evt) => {
-      setUserPassword(evt.target.value);
+        onLogin(values.email, values.password);
+        resetForm();
     };
 
     return (
@@ -31,37 +24,42 @@ function Login({ onLogin }) {
           linkText="Регистрация"
           handleSubmit={handleSubmit}
           isLoginLocation={isLoginLocation}
+          isValid={isValid}
         >
 
-          <span className="register__input-title">E-mail</span>
+          <label className="login__input-title" htmlFor="email-input">E-mail</label>
           <input
-            id="login-input"
-            className="login__input"
+            id="email-input"
+            className={`login__input ${errors.email && 'login__input_error'}`}
             type="email"
-            name="login"
-            value={userEmail}
-            onChange={handleEmailChange}
+            name="email"
+            value={values.email || ''}
+            onChange={handleChange}
             minLength="2"
             maxLength="40"
             autoComplete="off"
             placeholder='info@ya.ru'
+            pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
             required
           />
+          <span className="login__input-error">{errors.email}</span>
 
-          <span className="register__input-title">Password</span>
+          <label className="login__input-title" htmlFor="password-input">Password</label>
           <input
             id="password-input"
-            className="login__input"
+            className={`login__input ${errors.password && 'login__input_error'}`}
             type="password"
             name="password"
-            value={userPassword}
-            onChange={handlePasswordChange}
+            value={values.password || ''}
+            onChange={handleChange}
             minLength="4"
             maxLength="30"
             autoComplete="off"
             placeholder='****'
             required
           />
+          <span className="login__input-error">{errors.password}</span>
+
         </Form>
       </main>
     );
