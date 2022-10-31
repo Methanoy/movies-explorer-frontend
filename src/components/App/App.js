@@ -1,6 +1,6 @@
 import './App.css';
 import { React, useState, useEffect } from 'react';
-import { Route, useHistory, Switch } from 'react-router-dom';
+import { Route, useHistory, Switch, Redirect } from 'react-router-dom';
 /* components */
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -191,7 +191,7 @@ function App() {
     auth
       .signout()
       .then(() => {
-        history.push('/signin');
+        history.push('/');
         setIsLoggedIn(false);
         setIsCurrentUser({});
         setSearchedMovies([]);
