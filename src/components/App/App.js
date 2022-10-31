@@ -39,42 +39,55 @@ function App() {
     setIsPopupParams({ ...isPopupParams, isOpen: false })
   }
 
+  function filterSearchMovie(initialMoviesList, searchRequest) {
+    const moviesSortedByUserRequest = initialMoviesList.filter(movie => {
+      const ruMovie = movie.nameRU.toLowerCase();
+      const enMovie = movie.nameEN.toLowerCase();
+      const userRequestData = searchRequest.toLowerCase();
+      const searchResult =
+        ruMovie.includes(userRequestData) || enMovie.includes(userRequestData);
+      return searchResult;
+    })
+    if (moviesSortedByUserRequest.length !== 0) {
+      localStorage.setItem('searchedMoviesList', JSON.stringify(moviesSortedByUserRequest));
+      localStorage.setItem('searchRequest', JSON.stringify(searchRequest));
+      setSearchedMovies(moviesSortedByUserRequest);
+    } else {
+      setIsPopupParams({ isOpen: true, status: false, text: 'Ничего не найдено.' });
+    }
+}
+
   function handleSearchMovie(searchRequest) {
     const initialMoviesList = JSON.parse(localStorage.getItem('allApisMoviesList'));
-    if (initialMoviesList) {
-      const moviesSortedByUserRequest = initialMoviesList.filter(movie => {
-        const movieDescription = movie.description.toLowerCase();
-        const ruMovie = movie.nameRU.toLowerCase();
-        const enMovie = movie.nameEN.toLowerCase();
-        const userRequestData = searchRequest.toLowerCase();
-        const searchResult =
-          movieDescription.includes(userRequestData) ||
-          ruMovie.includes(userRequestData) ||
-          enMovie.includes(userRequestData);
-        return searchResult;
-      });
-      if (moviesSortedByUserRequest.length !== 0) {
-        localStorage.setItem('searchedMoviesList', JSON.stringify(moviesSortedByUserRequest));
-        localStorage.setItem('searchRequest', JSON.stringify(searchRequest));
-        setSearchedMovies(moviesSortedByUserRequest);
-      } else {
-        setIsPopupParams({ isOpen: true, status: false, text: 'Ничего не найдено.' });
-      }
+    if (initialMoviesList !== null) {
+      filterSearchMovie(initialMoviesList, searchRequest);
     } else {
-      setIsPopupParams({ isOpen: true, status: false, text: 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.' });
+      setIsDataLoading(true);
+      moviesApi
+        .getMoviesApiData()
+        .then((moviesData) => {
+          localStorage.setItem('allApisMoviesList', JSON.stringify(moviesData));
+          filterSearchMovie(moviesData, searchRequest);
+        })
+        .catch((err) =>
+          setIsPopupParams({
+            isOpen: true,
+            status: false,
+            text: `Во время запроса произошла ошибка: ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`,
+          })
+        )
+        .finally(() => setIsDataLoading(false));
     }
   }
 
   function handleSearchSavedMovie(savedMoviesSearchRequest) {
     const savedMoviesList = JSON.parse(localStorage.getItem('savedMoviesList'));
     if (savedMoviesList) {
-      const moviesSortedByUserRequest = savedMoviesList.filter(i => {
-        const movieDescription = i.description.toLowerCase();
-        const ruMovie = i.nameRU.toLowerCase();
-        const enMovie = i.nameEN.toLowerCase();
+      const moviesSortedByUserRequest = savedMoviesList.filter((savedMovie) => {
+        const ruMovie = savedMovie.nameRU.toLowerCase();
+        const enMovie = savedMovie.nameEN.toLowerCase();
         const userRequestData = savedMoviesSearchRequest.toLowerCase();
         const searchResult =
-          movieDescription.includes(userRequestData) ||
           ruMovie.includes(userRequestData) ||
           enMovie.includes(userRequestData);
         return searchResult;
@@ -226,19 +239,6 @@ function App() {
         .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при получении избранных карточек. ${err}` }));
     }
   }, [isLoggedIn, currentUser]);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      setIsDataLoading(true);
-      moviesApi
-        .getMoviesApiData()
-        .then((moviesData) => {
-          localStorage.setItem('allApisMoviesList', JSON.stringify(moviesData));
-        })
-        .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при загрузке данных сервиса BeatFilm. ${err}` }))
-        .finally(() => setIsDataLoading(false));
-    }
-  }, [isLoggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
