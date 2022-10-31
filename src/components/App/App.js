@@ -154,7 +154,7 @@ function App() {
       .signup(userName, userEmail, userPassword)
       .then((res) => {
         if (res) {
-          history.push('/signin');
+          onLogin(userEmail, userPassword);
           setIsPopupParams({ isOpen: true, status: true, text: 'Вы успешно зарегистрировались!' });
         }
       })
