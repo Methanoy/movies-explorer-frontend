@@ -12,11 +12,11 @@ function SearchForm({ search, isLoggedIn, handleShortMoviesFilter }) {
 
     const handleSubmitRequest = (evt) => {
         evt.preventDefault();
-        if (isValid) {
+        if (isValid && values.search !== undefined) {
           search(values.search);
           setIsSearchFormSubmit(true);
         } else {
-          setSearchError('Для поиска карточки введите не менее 2-х символов.');
+          setSearchError('Нужно ввести ключевое слово.');
         }
     };
 
@@ -45,8 +45,8 @@ function SearchForm({ search, isLoggedIn, handleShortMoviesFilter }) {
             name="search"
             value={values.search || ""}
             onChange={handleChange}
-            minLength="2"
-            maxLength="40"
+            minLength="1"
+            maxLength="99"
             autoComplete="off"
             placeholder="Фильм"
             required
