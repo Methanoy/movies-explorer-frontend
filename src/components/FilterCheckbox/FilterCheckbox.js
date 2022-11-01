@@ -3,18 +3,14 @@ import { useLocation } from 'react-router-dom';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import './FilterCheckbox.css';
 
-function FilterCheckbox({ handleShortMoviesFilter, isSearchFormSubmit, isLoggedIn }) {
+function FilterCheckbox({ handleShortMoviesFilter, isLoggedIn }) {
   const isSavedMoviesLocation = useLocation().pathname === '/saved-movies';
   const currentUser = useContext(CurrentUserContext);
   const [isFilterOn, setIsFilterOn] = useState(false);
 
   function handleFilterToogle() {
-    if (isSearchFormSubmit) {
       setIsFilterOn(!isFilterOn);
       handleShortMoviesFilter(!isFilterOn);
-    } else {
-    /* вывести подсказку о предварительной отправке формы */
-    }
   }
 
   useEffect(() => {

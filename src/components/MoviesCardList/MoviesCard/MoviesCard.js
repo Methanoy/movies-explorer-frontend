@@ -2,7 +2,6 @@ import './MoviesCard.css';
 import { makeImgURL, convertMinutesToHours } from '../../../utils/utils';
 
 function MoviesCard({ movie, isSavedMoviesLocation, handleLikeMovieCard, handleUnlikeMovieCard, savedMovies }) {
-
   const isAnyLikedCard = savedMovies.some((i) => i.movieId === movie.id);
   const likedCard = savedMovies.filter((i) => i.movieId === movie.id);
 

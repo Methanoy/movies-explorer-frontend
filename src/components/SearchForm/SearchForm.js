@@ -6,7 +6,6 @@ import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 function SearchForm({ search, isLoggedIn, handleShortMoviesFilter }) {
   const { values, handleChange, isValid, setIsValid } = useFormWithValidation();
-  const [isSearchFormSubmit, setIsSearchFormSubmit] = useState(false);
   const [searchError, setSearchError] = useState('');
   const currentUser = useContext(CurrentUserContext);
 
@@ -14,7 +13,6 @@ function SearchForm({ search, isLoggedIn, handleShortMoviesFilter }) {
         evt.preventDefault();
         if (isValid && values.search !== undefined) {
           search(values.search);
-          setIsSearchFormSubmit(true);
         } else {
           setSearchError('Нужно ввести ключевое слово.');
         }
@@ -56,7 +54,7 @@ function SearchForm({ search, isLoggedIn, handleShortMoviesFilter }) {
             type="submit"
             aria-label="Кнопка поиска фильмов"
           ></button>
-          <FilterCheckbox isSearchFormSubmit={isSearchFormSubmit} handleShortMoviesFilter={handleShortMoviesFilter} isLoggedIn={isLoggedIn} />
+          <FilterCheckbox handleShortMoviesFilter={handleShortMoviesFilter} isLoggedIn={isLoggedIn} />
         </form>
         <span className="search__error">{searchError}</span>
       </div>
