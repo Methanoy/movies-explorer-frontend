@@ -142,9 +142,6 @@
     }
 
     .search__error {
-        position: absolute;
-        top: 50%;
-        left: 0;
         font-size: 14px;
         line-height: 16px;
     }

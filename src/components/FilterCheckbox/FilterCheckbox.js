@@ -1,34 +1,6 @@
-import { useState, useEffect, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
-import CurrentUserContext from '../../contexts/CurrentUserContext';
 import './FilterCheckbox.css';
 
-function FilterCheckbox({ handleShortMoviesFilter, isLoggedIn }) {
-  const isSavedMoviesLocation = useLocation().pathname === '/saved-movies';
-  const currentUser = useContext(CurrentUserContext);
-  const [isFilterOn, setIsFilterOn] = useState(false);
-
-  function handleFilterToogle() {
-      setIsFilterOn(!isFilterOn);
-      handleShortMoviesFilter(!isFilterOn);
-  }
-
-  useEffect(() => {
-    if (isLoggedIn && currentUser) {
-      const localFilterStatus = JSON.parse(localStorage.getItem('isFilterOn'));
-      if (localFilterStatus) {
-        setIsFilterOn(localFilterStatus);
-      }
-    }
-  }, [isLoggedIn, currentUser]);
-
-  useEffect(() => {
-    if (isLoggedIn && currentUser && isSavedMoviesLocation) {
-      if (isSavedMoviesLocation) {
-        setIsFilterOn(false);
-      }
-    }
-  }, [isLoggedIn, currentUser, isSavedMoviesLocation]);
+function FilterCheckbox({ handleFilterToggle, isFilterOn }) {
 
   return (
     <div className="filter">
@@ -39,7 +11,7 @@ function FilterCheckbox({ handleShortMoviesFilter, isLoggedIn }) {
           className="filter__checkbox"
           type="checkbox"
           name="checkbox"
-          onChange={handleFilterToogle}
+          onChange={handleFilterToggle}
           checked={isFilterOn}
         />
         <span className="filter__slider"></span>

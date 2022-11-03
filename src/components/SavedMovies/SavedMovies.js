@@ -5,7 +5,6 @@ import CurrentUserContext from '../../contexts/CurrentUserContext';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
 
-
 function SavedMovies({
   isLoggedIn,
   savedMovies,

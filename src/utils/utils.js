@@ -15,11 +15,22 @@ const handleResponse = (res) => {
 function convertMinutesToHours(movieDuration) {
   const hours = Math.trunc(movieDuration / 60);
   const minutes = movieDuration % 60;
-  if(hours === 0) {
-    return `${minutes}м`;
-  } else {
-    return `${hours}ч ${minutes}м`;
-  }
+
+  return hours === 0 ? `${minutes}м` : `${hours}ч ${minutes}м`;
+}
+
+function filterMoviesByUserRequest(movies, request) {
+  const filteredList = movies.filter((movie) => {
+    const ruMovie = movie.nameRU.toLowerCase();
+    const enMovie = movie.nameEN.toLowerCase();
+    const convertedSearchRequest = request.toLowerCase();
+    const searchResult =
+      ruMovie.includes(convertedSearchRequest) ||
+      enMovie.includes(convertedSearchRequest);
+
+    return searchResult;
+  });
+  return filteredList;
 }
 
 const shortMoviesList = (moviesList) => moviesList.filter(i => i.duration <= 40);
@@ -27,4 +38,4 @@ const shortMoviesList = (moviesList) => moviesList.filter(i => i.duration <= 40)
 const makeImgURL = (movieApiImgPath) => `${MOVIES_IMG_URL}${movieApiImgPath}`;
 
 
-export { MAIN_API_URL, MOVIES_API_URL, MOVIES_IMG_URL, handleResponse, convertMinutesToHours, makeImgURL, shortMoviesList };
+export { MAIN_API_URL, MOVIES_API_URL, MOVIES_IMG_URL, handleResponse, convertMinutesToHours, makeImgURL, shortMoviesList, filterMoviesByUserRequest };

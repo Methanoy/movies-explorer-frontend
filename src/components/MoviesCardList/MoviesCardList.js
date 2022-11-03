@@ -6,7 +6,6 @@ import useScreenSize from '../../hooks/useScreenSize';
 function MoviesCardList(props) {
   const screenSize = useScreenSize();
   const [cardsDisplayParam, setCardsDisplayParam] = useState({});
-  const areAllCardsDisplayed = cardsDisplayParam.cardsAmount >= props.movies.length;
   
   useEffect(() => {
     if (!props.isSavedMoviesLocation) {
@@ -27,26 +26,36 @@ function MoviesCardList(props) {
 
   return (
     <section className="movies-card-list">
-      <ul className="movies-card-list__items-container">
-        {props.movies.slice(0, cardsDisplayParam.cardsAmount).map((movie) => (
-          <MoviesCard
-            movie={movie}
-            key={movie.id || movie.movieId}
-            savedMovies={props.savedMovies}
-            isSavedMoviesLocation={props.isSavedMoviesLocation}
-            handleLikeMovieCard={props.handleLikeMovieCard}
-            handleUnlikeMovieCard={props.handleUnlikeMovieCard}
-          />
-        ))}
-      </ul>
-        <button
-          className={`movies-card-list__add-more-btn ${(props.isSavedMoviesLocation || areAllCardsDisplayed) && 'movies-card-list__add-more-btn_hidden'}`}
-          type="button"
-          aria-label="Вывести на экран больше карточек фильмов"
-          onClick={handleAddMoreBtn}
-        >
-          Ещё
-        </button>
+      {!props.isMovieListEmpty && (
+        <>
+          <ul className="movies-card-list__items-container">
+            {props.movies
+              .slice(0, cardsDisplayParam.cardsAmount)
+              .map((movie) => (
+                <MoviesCard
+                  movie={movie}
+                  key={movie.id || movie.movieId}
+                  savedMovies={props.savedMovies}
+                  isSavedMoviesLocation={props.isSavedMoviesLocation}
+                  handleLikeMovieCard={props.handleLikeMovieCard}
+                  handleUnlikeMovieCard={props.handleUnlikeMovieCard}
+                />
+              ))}
+          </ul>
+          <button
+            className={`movies-card-list__add-more-btn ${
+              (props.isSavedMoviesLocation ||
+                cardsDisplayParam.cardsAmount >= props.movies.length) &&
+              'movies-card-list__add-more-btn_hidden'
+            }`}
+            type="button"
+            aria-label="Вывести на экран больше карточек фильмов"
+            onClick={handleAddMoreBtn}
+          >
+            Ещё
+          </button>
+        </>
+      )}
     </section>
   );
 }
