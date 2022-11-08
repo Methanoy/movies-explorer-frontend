@@ -1,47 +1,101 @@
 import './SavedMovies.css';
-import { useLocation } from 'react-router-dom';
-import { useEffect, useContext } from 'react';
-import CurrentUserContext from '../../contexts/CurrentUserContext';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
+import { shortMovieList, filterMoviesByUserRequest } from '../../utils/utils';
+import { React, useState, useEffect } from 'react';
 
 function SavedMovies({
-  isLoggedIn,
   savedMovies,
-  setSavedMovies,
+  setIsPopupParams,
   handleLikeMovieCard,
   handleUnlikeMovieCard,
-  filterShortSavedMovies,
-  handleSearchSavedMovie,
 }) {
-  const isSavedMoviesLocation = useLocation().pathname === '/saved-movies';
-  const currentUser = useContext(CurrentUserContext);
+  const [displayedMovies, setDisplayedMovies] = useState([]);
+  const [allFoundSavedMovies, setAllFoundSavedMovies] = useState([]);
+  const [shortSavedMovies, setShortSavedMovies] = useState([]);
+  const [isFilterOn, setIsFilterOn] = useState(false);
 
-  useEffect(() => {
-    if (isLoggedIn && currentUser) {
-      const localSavedMoviesCard = JSON.parse(
-        localStorage.getItem('savedMoviesList')
+  function handleFilterToggle() {
+    setIsFilterOn(!isFilterOn);
+    localStorage.setItem('isSavedFilterOn', JSON.stringify(!isFilterOn));
+  }
+
+  function handleSubmittedSavedSearch(request) {
+    const filteredSavedList = filterMoviesByUserRequest(savedMovies, request);
+
+    // если после фильтрации массив пуст, показывает попап неудачи
+    if (!filteredSavedList.length) {
+      setIsPopupParams({
+        isOpen: true,
+        status: false,
+        text: 'Ничего не найдено.',
+      });
+      // если массив НЕ пуст, сохраняет запрос и результат в двух вариантах: короткометражки и полный метр
+    } else {
+      setAllFoundSavedMovies(filteredSavedList);
+      localStorage.setItem('allSavedMovies', JSON.stringify(filteredSavedList));
+
+      setShortSavedMovies(shortMovieList(filteredSavedList));
+      localStorage.setItem(
+        'shortSavedMovies',
+        JSON.stringify(shortMovieList(filteredSavedList))
       );
-      if (localSavedMoviesCard) {
-        setSavedMovies(localSavedMoviesCard);
-      }
+
+      localStorage.setItem('requestSaved', JSON.stringify(request));
     }
-  }, [isLoggedIn, currentUser, setSavedMovies]);
+  }
+
+  // монтирует из localstorage результаты последнего поиска
+  useEffect(() => {
+    const allSavedMovieList = JSON.parse(
+      localStorage.getItem('allSavedMovies')
+    );
+    if (allSavedMovieList) {
+      setAllFoundSavedMovies(allSavedMovieList);
+    }
+    const shortSavedMovieList = JSON.parse(
+      localStorage.getItem('shortSavedMovies')
+    );
+    if (shortSavedMovieList) {
+      setShortSavedMovies(shortSavedMovieList);
+    }
+  }, []);
+
+  // монтирует после перезагрузки страницы список фильмов из избранного в зависимости от состояния чекбокса
+  useEffect(() => {
+    if (!allFoundSavedMovies.length) {
+      isFilterOn
+        ? setDisplayedMovies(shortMovieList(savedMovies))
+        : setDisplayedMovies(savedMovies);
+    } else {
+      isFilterOn
+        ? setDisplayedMovies(shortSavedMovies)
+        : setDisplayedMovies(allFoundSavedMovies);
+    }
+  }, [allFoundSavedMovies, shortSavedMovies, isFilterOn, savedMovies]);
+
+  // монтирует из localstorage состояния чекбокса
+  useEffect(() => {
+    const savedFilterStatus = JSON.parse(
+      localStorage.getItem('isSavedFilterOn')
+    );
+    if (savedFilterStatus) {
+      setIsFilterOn(savedFilterStatus);
+    }
+  }, [isFilterOn]);
 
   return (
     <section className="saved-movies">
       <SearchForm
-        search={handleSearchSavedMovie}
-        isSavedMoviesLocation={isSavedMoviesLocation}
-        handleShortMoviesFilter={filterShortSavedMovies}
+        search={handleSubmittedSavedSearch}
+        isFilterOn={isFilterOn}
+        handleFilterToggle={handleFilterToggle}
       />
       <MoviesCardList
-        movies={savedMovies}
-        savedMovies={savedMovies}
+        movies={displayedMovies}
+        isFilterOn={isFilterOn}
         handleLikeMovieCard={handleLikeMovieCard}
-        isSavedMoviesLocation={isSavedMoviesLocation}
         handleUnlikeMovieCard={handleUnlikeMovieCard}
-        filterShortSavedMovies={filterShortSavedMovies}
       />
     </section>
   );

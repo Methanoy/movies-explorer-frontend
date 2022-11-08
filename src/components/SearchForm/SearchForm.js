@@ -5,12 +5,11 @@ import { useLocation } from 'react-router-dom';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
-function SearchForm({ search, isLoggedIn, handleFilterToggle, isFilterOn }) {
+function SearchForm({ search, handleFilterToggle, isFilterOn }) {
+  const isMoviesLocation = useLocation().pathname === '/movies';
   const { values, handleChange, isValid, setIsValid } = useFormWithValidation();
   const [emptyInputMessage, setEmptyInputMessage] = useState('');
   const [notFoundMessage, setNotFoundMessage] = useState('');
-  const currentUser = useContext(CurrentUserContext);
-  const isMoviesLocation = useLocation().pathname === '/movies';
 
   const handleSubmitRequest = (evt) => {
     evt.preventDefault();
@@ -23,32 +22,40 @@ function SearchForm({ search, isLoggedIn, handleFilterToggle, isFilterOn }) {
 
   // монтирует в поисковую строку последний запрос из хранилища
   useEffect(() => {
-    if (isLoggedIn && currentUser) {
-      const lastSearchRequest = JSON.parse(localStorage.getItem('request'));
-      if (lastSearchRequest) {
-        values.search = lastSearchRequest;
+    if (isMoviesLocation) {
+      const lastSearchMoviesRequest = JSON.parse(localStorage.getItem('requestMovies'));
+      if (lastSearchMoviesRequest) {
+        values.search = lastSearchMoviesRequest;
+      }
+      setIsValid(true);
+    } else {
+      const lastSearchSavedRequest = JSON.parse(localStorage.getItem('requestSaved'));
+      if (lastSearchSavedRequest) {
+        values.search = lastSearchSavedRequest;
       }
       setIsValid(true);
     }
-  }, [isLoggedIn, currentUser, setIsValid]);
+  }, [setIsValid, isMoviesLocation]);
 
-  // монтируем сообщение о неудаче при пустом массиве
-  useEffect(() => {
-    const allMovies = JSON.parse(localStorage.getItem('allMovies'));
-    !allMovies.length
-      ? setNotFoundMessage('Ничего не найдено.')
-      : setNotFoundMessage('');
+  // // монтируем сообщение о неудаче при пустом массиве
+  // useEffect(() => {
+  //   const allMovies = JSON.parse(localStorage.getItem('allMovies'));
+  //   !allMovies
+  //     ? setNotFoundMessage('Ничего не найдено.')
+  //     : setNotFoundMessage('');
 
-    const shortMovies = JSON.parse(localStorage.getItem('shortMovies'));
-    !shortMovies.length && isFilterOn && search
-      ? setNotFoundMessage('Ничего не найдено.')
-      : setNotFoundMessage('');
-  }, [search, isFilterOn]);
+  //   const shortMovies = JSON.parse(localStorage.getItem('shortMovies'));
+  //   !shortMovies && isFilterOn && search
+  //     ? setNotFoundMessage('Ничего не найдено.')
+  //     : setNotFoundMessage('');
+  // }, [search, isFilterOn]);
 
   // сохраняет сообщение об ошибке в разделе movies, а на других страницах отключает
-  useEffect(() => {
-    !isMoviesLocation && setNotFoundMessage('');
-  }, [isMoviesLocation]);
+  // useEffect(() => {
+  //   if (!isMoviesLocation) {
+  //     setNotFoundMessage('');
+  //   }
+  // }, [isMoviesLocation]);
 
   // очищает сообщение об ошибке после введения в поиск валидного значения
   useEffect(() => {

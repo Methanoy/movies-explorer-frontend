@@ -1,17 +1,15 @@
 import './MoviesCard.css';
 import { makeImgURL, convertMinutesToHours } from '../../../utils/utils';
 
-function MoviesCard({ movie, isSavedMoviesLocation, handleLikeMovieCard, handleUnlikeMovieCard, savedMovies }) {
-  const isAnyLikedCard = savedMovies.some((i) => i.movieId === movie.id);
-  const likedCard = savedMovies.filter((i) => i.movieId === movie.id);
+function MoviesCard({ liked, movie, isSavedMoviesLocation, handleLikeMovieCard, handleUnlikeMovieCard }) {
 
-  function handleDeleteClick() {
+  function handleClickDislike() {
     handleUnlikeMovieCard(movie);
   }
 
-  function handleLikeToogle() {
-    if (isAnyLikedCard) {
-      handleUnlikeMovieCard(likedCard[0]);
+  function handleLikeToggle() {
+    if (liked) {
+      handleUnlikeMovieCard({...liked, id: liked._id});
     } else {
       handleLikeMovieCard(movie);
     }
@@ -29,16 +27,16 @@ function MoviesCard({ movie, isSavedMoviesLocation, handleLikeMovieCard, handleU
         {!isSavedMoviesLocation ? (
           <button
             className={`card__favourite-btn card__favourite-btn_${
-              isAnyLikedCard ? 'active' : 'inactive'
+              liked ? 'active' : 'inactive'
             }`}
-            onClick={handleLikeToogle}
+            onClick={handleLikeToggle}
             type="button"
             aria-label="Добавить карточку в избранные или удалить"
           ></button>
         ) : (
           <button
             className="card__favourite-btn card__favourite-btn_delete"
-            onClick={handleDeleteClick}
+            onClick={handleClickDislike}
             type="button"
             aria-label="Удалить карточку из избранного"
           ></button>

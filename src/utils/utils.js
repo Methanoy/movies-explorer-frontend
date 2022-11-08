@@ -33,9 +33,9 @@ function filterMoviesByUserRequest(movies, request) {
   return filteredList;
 }
 
-const shortMoviesList = (moviesList) => moviesList.filter(i => i.duration <= 40);
+const shortMovieList = (moviesList) => moviesList.filter(i => i.duration <= 40);
 
 const makeImgURL = (movieApiImgPath) => `${MOVIES_IMG_URL}${movieApiImgPath}`;
 
 
-export { MAIN_API_URL, MOVIES_API_URL, MOVIES_IMG_URL, handleResponse, convertMinutesToHours, makeImgURL, shortMoviesList, filterMoviesByUserRequest };
+export { MAIN_API_URL, MOVIES_API_URL, MOVIES_IMG_URL, handleResponse, convertMinutesToHours, makeImgURL, shortMovieList, filterMoviesByUserRequest };
