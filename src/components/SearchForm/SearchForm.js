@@ -1,8 +1,7 @@
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import CurrentUserContext from '../../contexts/CurrentUserContext';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 function SearchForm({ search, handleFilterToggle, isFilterOn }) {
@@ -37,29 +36,24 @@ function SearchForm({ search, handleFilterToggle, isFilterOn }) {
     }
   }, [setIsValid, isMoviesLocation]);
 
-  // // монтируем сообщение о неудаче при пустом массиве
-  // useEffect(() => {
-  //   const allMovies = JSON.parse(localStorage.getItem('allMovies'));
-  //   !allMovies
-  //     ? setNotFoundMessage('Ничего не найдено.')
-  //     : setNotFoundMessage('');
-
-  //   const shortMovies = JSON.parse(localStorage.getItem('shortMovies'));
-  //   !shortMovies && isFilterOn && search
-  //     ? setNotFoundMessage('Ничего не найдено.')
-  //     : setNotFoundMessage('');
-  // }, [search, isFilterOn]);
-
-  // сохраняет сообщение об ошибке в разделе movies, а на других страницах отключает
-  // useEffect(() => {
-  //   if (!isMoviesLocation) {
-  //     setNotFoundMessage('');
-  //   }
-  // }, [isMoviesLocation]);
-
-  // очищает сообщение об ошибке после введения в поиск валидного значения
+  // монтирует сообщение о неудаче при пустом массиве короткометражек
   useEffect(() => {
-    setEmptyInputMessage('');
+    if (isMoviesLocation) {
+      const shortMovies = JSON.parse(localStorage.getItem('shortMovies'));
+      isFilterOn && (shortMovies === null || !shortMovies.length)
+        ? setNotFoundMessage('Ничего не найдено.')
+        : setNotFoundMessage('');
+    } else {
+      const shortSavedMovies = JSON.parse(localStorage.getItem('shortSavedMovies'));
+      isFilterOn && (shortSavedMovies === null || !shortSavedMovies.length)
+        ? setNotFoundMessage('Ничего не найдено.')
+        : setNotFoundMessage('');
+    }
+  }, [isFilterOn, search, isMoviesLocation])
+
+  // очищает сообщение об ошибке после ввода в поисковую строку валидного значения
+  useEffect(() => {
+    isValid && setEmptyInputMessage('');
   }, [isValid]);
 
   return (
@@ -95,7 +89,7 @@ function SearchForm({ search, handleFilterToggle, isFilterOn }) {
           />
         </form>
         <span className="search__error">
-          {emptyInputMessage || notFoundMessage}
+          {notFoundMessage || emptyInputMessage}
         </span>
       </div>
     </section>

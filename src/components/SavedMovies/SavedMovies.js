@@ -64,6 +64,10 @@ function SavedMovies({
   // монтирует после перезагрузки страницы список фильмов из избранного в зависимости от состояния чекбокса
   useEffect(() => {
     if (!allFoundSavedMovies.length) {
+      localStorage.setItem(
+        'shortSavedMovies',
+        JSON.stringify(shortMovieList(savedMovies))
+      ); // отключает notFoundMessage до совершения поиска
       isFilterOn
         ? setDisplayedMovies(shortMovieList(savedMovies))
         : setDisplayedMovies(savedMovies);
