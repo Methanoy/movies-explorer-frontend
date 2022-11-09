@@ -17,6 +17,7 @@ function Movies({
   const [allFoundMovies, setAllFoundMovies] = useState([]);
   const [shortMovies, setShortMovies] = useState([]);
   const [isFilterOn, setIsFilterOn] = useState(false);
+  const [isCardListEmpty, setIsCardListEmpty] = useState(false);
 
   function handleFilterToggle() {
     setIsFilterOn(!isFilterOn);
@@ -27,24 +28,26 @@ function Movies({
     // фильтрует массив фильмов API по ключевым символам из запроса пользователя
     const filteredMovieList = filterMoviesByUserRequest(movies, request);
     
-    // если после фильтрации массив пуст, показывает попап неудачи
+    // если после фильтрации массив пуст, показывает попап неудачи и скрывает список фильмов
     if(!filteredMovieList.length) {
       setIsPopupParams({
         isOpen: true,
         status: false,
         text: 'Ничего не найдено.',
       });
+      setIsCardListEmpty(true);
+    } else {
       // если массив НЕ пуст, сохраняет запрос, фильтр и
       // результат в двух вариантах: короткометражки и полный метр
-    } else {
+      setIsCardListEmpty(false);
 
-    setAllFoundMovies(filteredMovieList);
-    localStorage.setItem('allMovies', JSON.stringify(filteredMovieList));
+      setAllFoundMovies(filteredMovieList);
+      localStorage.setItem('allMovies', JSON.stringify(filteredMovieList));
 
-    setShortMovies(shortMovieList(filteredMovieList));
-    localStorage.setItem('shortMovies', JSON.stringify(shortMovieList(filteredMovieList)));
+      setShortMovies(shortMovieList(filteredMovieList));
+      localStorage.setItem('shortMovies', JSON.stringify(shortMovieList(filteredMovieList)));
 
-    localStorage.setItem('requestMovies', JSON.stringify(request));
+      localStorage.setItem('requestMovies', JSON.stringify(request));
     }
   }
 
@@ -111,6 +114,7 @@ function Movies({
       <MoviesCardList
         movies={displayedMovies}
         savedMovies={savedMovies}
+        isCardListEmpty={isCardListEmpty}
         handleLikeMovieCard={handleLikeMovieCard}
         handleUnlikeMovieCard={handleUnlikeMovieCard}
       />

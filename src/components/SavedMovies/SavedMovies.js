@@ -14,6 +14,7 @@ function SavedMovies({
   const [allFoundSavedMovies, setAllFoundSavedMovies] = useState([]);
   const [shortSavedMovies, setShortSavedMovies] = useState([]);
   const [isFilterOn, setIsFilterOn] = useState(false);
+  const [isCardListEmpty, setIsCardListEmpty] = useState(false);
 
   function handleFilterToggle() {
     setIsFilterOn(!isFilterOn);
@@ -23,15 +24,19 @@ function SavedMovies({
   function handleSubmittedSavedSearch(request) {
     const filteredSavedList = filterMoviesByUserRequest(savedMovies, request);
 
-    // если после фильтрации массив пуст, показывает попап неудачи
+    // если после фильтрации массив пуст, показывает попап неудачи и скрывает список фильмов
     if (!filteredSavedList.length) {
       setIsPopupParams({
         isOpen: true,
         status: false,
         text: 'Ничего не найдено.',
       });
-      // если массив НЕ пуст, сохраняет запрос и результат в двух вариантах: короткометражки и полный метр
+      setIsCardListEmpty(true);
     } else {
+      // если массив НЕ пуст, сохраняет запрос, фильтр и
+      // результат в двух вариантах: короткометражки и полный метр
+      setIsCardListEmpty(false);
+
       setAllFoundSavedMovies(filteredSavedList);
       localStorage.setItem('allSavedMovies', JSON.stringify(filteredSavedList));
 
@@ -98,6 +103,7 @@ function SavedMovies({
       <MoviesCardList
         movies={displayedMovies}
         isFilterOn={isFilterOn}
+        isCardListEmpty={isCardListEmpty}
         handleLikeMovieCard={handleLikeMovieCard}
         handleUnlikeMovieCard={handleUnlikeMovieCard}
       />
