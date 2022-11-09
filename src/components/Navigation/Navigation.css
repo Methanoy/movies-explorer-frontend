@@ -48,6 +48,14 @@
     line-height: 18px;
 }
 
+.navigation__link_active {
+    border-bottom: 2px solid #3456F3;
+}
+
+.navigation__link_active-account {
+    border: 2px solid #3456F3;
+}
+
 .navigation__link_account {
     display: flex;
     font-size: 14px;
@@ -187,6 +195,7 @@
         align-items: center;
         gap: 24px;
         padding: 0 0 350px;
+        border-bottom: none;
     }
 
     .navigation__menu-list_visible {
@@ -219,11 +228,6 @@
 
     .navigation__link_active {
         padding-bottom: 7px;
-        border-bottom: 2px solid #3456F3;
-    }
-
-    .navigation__link_active-account {
-        border: 2px solid #3456F3;
     }
 
     .navigation__burger-btn {
@@ -265,7 +269,7 @@
     .navigation__link_signin-btn:hover {
         box-shadow: none;
     }
-    
+
     .navigation__link_signin-btn:active {
         box-shadow: none;
     }
