@@ -1,7 +1,4 @@
-// const MAIN_API_URL = 'https://api.methanoy.nomoredomains.icu';
-const MAIN_API_URL = 'http://localhost:3000';
-const MOVIES_API_URL = 'https://api.nomoreparties.co/beatfilm-movies';
-const MOVIES_IMG_URL = 'https://api.nomoreparties.co';
+import { MOVIES_IMG_URL, SHORT_MOVIE_DURATION} from './constants';
 
 const handleResponse = (res) => {
   if (res.ok) {
@@ -33,9 +30,8 @@ function filterMoviesByUserRequest(movies, request) {
   return filteredList;
 }
 
-const shortMovieList = (moviesList) => moviesList.filter(i => i.duration <= 40);
+const shortMovieList = (moviesList) => moviesList.filter(i => i.duration <= SHORT_MOVIE_DURATION);
 
 const makeImgURL = (movieApiImgPath) => `${MOVIES_IMG_URL}${movieApiImgPath}`;
 
-
-export { MAIN_API_URL, MOVIES_API_URL, MOVIES_IMG_URL, handleResponse, convertMinutesToHours, makeImgURL, shortMovieList, filterMoviesByUserRequest };
+export { handleResponse, convertMinutesToHours, makeImgURL, shortMovieList, filterMoviesByUserRequest };

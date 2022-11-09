@@ -1,4 +1,5 @@
-import { MAIN_API_URL, handleResponse } from './utils';
+import { handleResponse } from './utils';
+import { MAIN_API_URL } from './constants';
 
 export const signup = (name, email, password) => fetch(`${MAIN_API_URL}/signup`, {
   method: 'POST',

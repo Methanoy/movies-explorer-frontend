@@ -1,4 +1,5 @@
-import { MOVIES_API_URL, handleResponse } from './utils';
+import { handleResponse } from './utils';
+import { MOVIES_API_URL } from './constants';
 
 class MoviesApi {
   constructor(options) {

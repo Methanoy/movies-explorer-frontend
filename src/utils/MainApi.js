@@ -1,4 +1,5 @@
-import { MAIN_API_URL, makeImgURL, handleResponse } from './utils';
+import { makeImgURL, handleResponse } from './utils';
+import { MAIN_API_URL } from './constants';
 
 class MainApi {
   constructor(options) {

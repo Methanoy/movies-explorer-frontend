@@ -3,15 +3,17 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import MoviesCard from './MoviesCard/MoviesCard';
 import useScreenSize from '../../hooks/useScreenSize';
+import { SCREEN_PARAMS } from '../../utils/constants';
 
 function MoviesCardList(props) {
   const isSavedMoviesLocation = useLocation().pathname === '/saved-movies';
+  const { desktop, tablet, mobile } = SCREEN_PARAMS;
   const screenSize = useScreenSize();
-  const [cardsDisplayParam, setCardsDisplayParam] = useState({});
+  const [cardsDisplayParams, setCardsDisplayParams] = useState({});
 
   function handleAddMoreBtn() {
-      const newCardsAmount = cardsDisplayParam.cardsAmount + cardsDisplayParam.addMore;
-      setCardsDisplayParam({ cardsAmount: newCardsAmount, addMore: cardsDisplayParam.addMore });
+      const newCardsAmount = cardsDisplayParams.cardsAmount + cardsDisplayParams.addMore;
+      setCardsDisplayParams({ cardsAmount: newCardsAmount, addMore: cardsDisplayParams.addMore });
   }
 
   function getLikedCard(arr, item) {
@@ -23,15 +25,15 @@ function MoviesCardList(props) {
   
   useEffect(() => {
     if (!isSavedMoviesLocation) {
-      if (screenSize > 1279) {
-        setCardsDisplayParam({ cardsAmount: 12, addMore: 3 });
-      } else if (screenSize > 766 && screenSize < 1280) {
-        setCardsDisplayParam({ cardsAmount: 8, addMore: 2 })
+      if (screenSize >= desktop.screenSize) {
+        setCardsDisplayParams(desktop.cardsParams);
+      } else if (screenSize >= tablet.screenSize && screenSize < desktop.screenSize) {
+        setCardsDisplayParams(tablet.cardsParams)
       } else {
-        setCardsDisplayParam({ cardsAmount: 5, addMore: 2 })
+        setCardsDisplayParams(mobile.cardsParams)
       }
     }
-  }, [screenSize, isSavedMoviesLocation])
+  }, [screenSize, isSavedMoviesLocation, desktop, tablet, mobile])
 
   return (
     <section className="movies-card-list">
@@ -39,7 +41,7 @@ function MoviesCardList(props) {
         <>
           <ul className="movies-card-list__items-container">
             {props.movies
-              .slice(0, cardsDisplayParam.cardsAmount)
+              .slice(0, cardsDisplayParams.cardsAmount)
               .map((movie) => (
                 <MoviesCard
                   movie={movie}
@@ -54,7 +56,7 @@ function MoviesCardList(props) {
           <button
             className={`movies-card-list__add-more-btn ${
               (isSavedMoviesLocation ||
-                cardsDisplayParam.cardsAmount >= props.movies.length) &&
+                cardsDisplayParams.cardsAmount >= props.movies.length) &&
               'movies-card-list__add-more-btn_hidden'
             }`}
             type="button"
