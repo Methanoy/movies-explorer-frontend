@@ -21,18 +21,30 @@ import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 function App() {
   const history = useHistory();
-  const headerPaths = ["/", "/movies", "/saved-movies", "/profile"];
-  const footerPaths = ["/", "/movies", "/saved-movies"];
-  //стейты булевы
+  const headerPaths = ["/movies", "/saved-movies", "/profile", "/"];
+  const footerPaths = ["/movies", "/saved-movies", "/"];
+  // стейты булевы
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [isPopupParams, setIsPopupParams] = useState({ isOpen: false, status: true, text: '' })
   const [isPreloader, setIsPreloader] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // стейты объектов
   const [currentUser, setIsCurrentUser] = useState({});
   const [savedMovies, setSavedMovies] = useState([]);
 
   function closePopup() {
     setIsPopupParams({ ...isPopupParams, isOpen: false })
+  }
+
+  function goToLoginPage() {
+    history.push('/signin');
+  }
+
+  function clearCurrentUsersData() {
+    setIsLoggedIn(false);
+    setIsCurrentUser({});
+    setSavedMovies([]);
+    localStorage.clear();
   }
 
   function handleLikeMovieCard(likedMovie) {
@@ -43,19 +55,42 @@ function App() {
         setSavedMovies(cardList);
         localStorage.setItem('savedMovies', JSON.stringify(cardList));
       })
-      .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при добавлении карточки в избранное. ${err}` }));
+      .catch((err) => {
+        goToLoginPage();
+        clearCurrentUsersData();
+        setIsPopupParams({
+          isOpen: true,
+          status: false,
+          text: `Ой, произошла ошибка при добавлении карточки в избранное. ${err}`,
+        });
+      });
   }
 
   function handleUnlikeMovieCard(unlikedMovie) {
     mainApi
       .deleteMovieCard(unlikedMovie._id)
       .then(() => {
-        const localSavedMoviesCard = JSON.parse(localStorage.getItem('savedMovies'));
-        const rewritedSavedMovieList = localSavedMoviesCard.filter(i => i.movieId !== unlikedMovie.movieId);
+        const localSavedMoviesCard = JSON.parse(
+          localStorage.getItem('savedMovies')
+        );
+        const rewritedSavedMovieList = localSavedMoviesCard.filter(
+          (i) => i.movieId !== unlikedMovie.movieId
+        );
         setSavedMovies(rewritedSavedMovieList);
-        localStorage.setItem('savedMovies', JSON.stringify(rewritedSavedMovieList));
+        localStorage.setItem(
+          'savedMovies',
+          JSON.stringify(rewritedSavedMovieList)
+        );
       })
-      .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при удалении карточки из избранного. ${err}` }));
+      .catch((err) => {
+        goToLoginPage();
+        clearCurrentUsersData();
+        setIsPopupParams({
+          isOpen: true,
+          status: false,
+          text: `Ой, произошла ошибка при удалении карточки из избранного. ${err}`,
+        });
+      })
   }
 
   function handleUpdateUser(data) {
@@ -63,9 +98,21 @@ function App() {
       .editUserInfo(data)
       .then((userData) => {
         setIsCurrentUser(userData);
-        setIsPopupParams({ isOpen: true, status: true, text: 'Данные обновлены!' });
+        setIsPopupParams({
+          isOpen: true,
+          status: true,
+          text: 'Данные обновлены!',
+        });
       })
-      .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при обновлении профиля. ${err}` }));
+      .catch((err) => {
+        goToLoginPage();
+        clearCurrentUsersData();
+        setIsPopupParams({
+          isOpen: true,
+          status: false,
+          text: `Ой, произошла ошибка при обновлении профиля. ${err}`,
+        });
+      });
   }
 
   function onSignup(userName, userEmail, userPassword) {
@@ -98,25 +145,22 @@ function App() {
       .signout()
       .then(() => {
         history.push('/');
-        setIsLoggedIn(false);
-        setIsCurrentUser({});
-        setSavedMovies([]);
-        localStorage.clear();
+        clearCurrentUsersData();
       })
       .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при завершении сеанса. ${err}` }));
   }
 
-  // проверка токена
+  // проверяет токен
   useEffect(() => {
-    const token = localStorage.getItem('login-status');
-    if (token) {
+    const isLoginStatus = localStorage.getItem('login-status') === 'logged-in';
+    if (isLoginStatus) {
       auth
         .checkToken()
         .then((data) => {
           if (data) {
             setIsLoggedIn(true);
             setIsCurrentUser(data)
-            history.push('/movies');
+            history.push(headerPaths);
           }
         })
         .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка аутентифиуации. ${err}` }));

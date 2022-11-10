@@ -64,13 +64,13 @@ function Movies({
           localStorage.setItem('allMoviesAPI', JSON.stringify(moviesData));
           setFilteredMovieLists(moviesData, request);
         })
-        .catch((err) =>
+        .catch((err) => {
           setIsPopupParams({
             isOpen: true,
             status: false,
             text: `Во время запроса произошла ошибка: ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`,
-          })
-        )
+          });
+        })
         .finally(() => setIsDataLoading(false));
     }
   }
