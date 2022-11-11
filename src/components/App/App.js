@@ -1,6 +1,6 @@
 import './App.css';
 import { React, useState, useEffect } from 'react';
-import { Route, useHistory, Switch } from 'react-router-dom';
+import { Route, useHistory, useLocation, Switch } from 'react-router-dom';
 /* components */
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -21,6 +21,7 @@ import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 function App() {
   const history = useHistory();
+  const location = useLocation();
   const headerPaths = ["/movies", "/saved-movies", "/profile", "/"];
   const footerPaths = ["/movies", "/saved-movies", "/"];
   // стейты булевы
@@ -121,10 +122,20 @@ function App() {
       .then((res) => {
         if (res) {
           onLogin(userEmail, userPassword);
-          setIsPopupParams({ isOpen: true, status: true, text: 'Вы успешно зарегистрировались!' });
+          setIsPopupParams({
+            isOpen: true,
+            status: true,
+            text: 'Вы успешно зарегистрировались!',
+          });
         }
       })
-      .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при регистрации. ${err}` }));
+      .catch((err) =>
+        setIsPopupParams({
+          isOpen: true,
+          status: false,
+          text: `Ой, произошла ошибка при регистрации. ${err}`,
+        })
+      );
   }
 
   function onLogin(userEmail, userPassword) {
@@ -137,7 +148,13 @@ function App() {
           localStorage.setItem('login-status', 'logged-in');
         }
       })
-      .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка аутентификации. ${err}` }));
+      .catch((err) =>
+        setIsPopupParams({
+          isOpen: true,
+          status: false,
+          text: `Ой, произошла ошибка аутентификации. ${err}`,
+        })
+      );
   }
 
   function onSignout() {
@@ -147,25 +164,38 @@ function App() {
         history.push('/');
         clearCurrentUsersData();
       })
-      .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при завершении сеанса. ${err}` }));
+      .catch((err) =>
+        setIsPopupParams({
+          isOpen: true,
+          status: false,
+          text: `Ой, произошла ошибка при завершении сеанса. ${err}`,
+        })
+      );
   }
 
-  // проверяет токен
+  // авторизация после перезагрузки страницы
   useEffect(() => {
-    const isLoginStatus = localStorage.getItem('login-status') === 'logged-in';
-    if (isLoginStatus) {
+    const currentPath = location.pathname;
+    const isLoginStatusActive = localStorage.getItem('login-status') === 'logged-in';
+    if (isLoginStatusActive) {
       auth
         .checkToken()
-        .then((data) => {
-          if (data) {
+        .then((userData) => {
+          if (userData) {
+            setIsCurrentUser(userData);
             setIsLoggedIn(true);
-            setIsCurrentUser(data)
-            history.push(headerPaths);
+            history.push(currentPath);
           }
         })
-        .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка аутентифиуации. ${err}` }));
+        .catch((err) =>
+          setIsPopupParams({
+            isOpen: true,
+            status: false,
+            text: `Ой, произошла ошибка аутентифиуации. ${err}`,
+          })
+        )
     }
-  }, [history]);
+  }, []);
 
   // монтирует данные пользователя
   useEffect(() => {
@@ -175,7 +205,13 @@ function App() {
         .then((userData) => {
           setIsCurrentUser(userData);
         })
-        .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при загрузке профиля. ${err}` }));
+        .catch((err) =>
+          setIsPopupParams({
+            isOpen: true,
+            status: false,
+            text: `Ой, произошла ошибка при загрузке профиля. ${err}`,
+          })
+        );
     }
   }, [isLoggedIn]);
 
@@ -188,7 +224,13 @@ function App() {
           setSavedMovies(likedCards);
           localStorage.setItem('savedMovies', JSON.stringify(likedCards));
         })
-        .catch((err) => setIsPopupParams({ isOpen: true, status: false, text: `Ой, произошла ошибка при получении избранных карточек. ${err}` }));
+        .catch((err) =>
+          setIsPopupParams({
+            isOpen: true,
+            status: false,
+            text: `Ой, произошла ошибка при получении избранных карточек. ${err}`,
+          })
+        );
     }
   }, [isLoggedIn, currentUser]);
 
