@@ -6,13 +6,6 @@ function Navigation({ isLoggedIn }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isLinkClicked, setIsLinkClicked] = useState(false);
 
-    console.log('клик:' + isLinkClicked);
-    console.log('меню:' + isSidebarOpen)
-    // function onSignout() {
-    //     setIsSmallMenuOpen(false);
-    //     setLogOut();
-    // }
-
     function toggleSidebarBtn() {
         setIsSidebarOpen(!isSidebarOpen);
     }
@@ -21,12 +14,12 @@ function Navigation({ isLoggedIn }) {
         setIsLinkClicked(!setIsLinkClicked);
         setIsSidebarOpen(!isSidebarOpen)
     }
-
+    
     return(
         <>
             {isLoggedIn ? (
                 <nav className={`navigation ${(isSidebarOpen && !isLinkClicked) && 'navigation__wrapper'}`}>
-                    <ul className={`navigation__menu-list ${(isSidebarOpen && !isLinkClicked) && 'navigation__menu-list_sidebar navigation__menu-list_visible'}`}>
+                    <ul className={`navigation__menu-list navigation__menu-list_logged ${(isSidebarOpen && !isLinkClicked) && 'navigation__menu-list_sidebar navigation__menu-list_visible navigation__menu-list_visible_logged'}`}>
                         <li className="navigation__menu-item navigation__hide-item">
                             <NavLink exact to="/" onClick={handleLinkClick} activeClassName="navigation__link_active" className="navigation__link navigation__link-text">Главная</NavLink>
                         </li>
@@ -50,7 +43,7 @@ function Navigation({ isLoggedIn }) {
                 </nav>
             ) : (
                 <nav className="navigation">
-                    <ul className="navigation__menu-list navigation__menu-list_visible">
+                    <ul className="navigation__menu-list navigation__menu-list_unlogged navigation__menu-list_visible navigation__menu-list_visible_unlogged">
                         <li className="navigation__menu-item">
                             <Link to="/signup" className="navigation__link navigation__link-text_unlogged">Регистрация</Link>
                         </li>

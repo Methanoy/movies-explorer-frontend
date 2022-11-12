@@ -1,18 +1,55 @@
 import './MoviesCard.css';
-import img from '../../../images/card__1.png';
+import { makeImgURL, convertMinutesToHours } from '../../../utils/utils';
 
-function MoviesCard({ isSavedMoviesLocation }) {
+function MoviesCard({ liked, movie, isSavedMoviesLocation, handleLikeMovieCard, handleUnlikeMovieCard }) {
+
+  function handleClickDislike() {
+    handleUnlikeMovieCard(movie);
+  }
+
+  function handleLikeToggle() {
+    if (liked) {
+      handleUnlikeMovieCard({...liked, id: liked._id});
+    } else {
+      handleLikeMovieCard(movie);
+    }
+  }
 
   return (
     <li className="card">
       <div className="card__header">
         <div className="card__description-container">
-          <h2 className="card__title">33 слова о дизайне</h2>
-          <p className="card__duration">1ч 47м</p>
+          <h2 className="card__title">{movie.nameRU}</h2>
+          <p className="card__duration">
+            {convertMinutesToHours(movie.duration)}
+          </p>
         </div>
-        <button className={`card__favourite-btn card__favourite-btn_${isSavedMoviesLocation ? "delete" : "active"}`} type="button" aria-label="Добавить карточку в избранные или удалить"></button>
+        {!isSavedMoviesLocation ? (
+          <button
+            className={`card__favourite-btn card__favourite-btn_${
+              liked ? 'active' : 'inactive'
+            }`}
+            onClick={handleLikeToggle}
+            type="button"
+            aria-label="Добавить карточку в избранные или удалить"
+          ></button>
+        ) : (
+          <button
+            className="card__favourite-btn card__favourite-btn_delete"
+            onClick={handleClickDislike}
+            type="button"
+            aria-label="Удалить карточку из избранного"
+          ></button>
+        )}
       </div>
-      <img className="card__img" src={img} title="Фотограф и дети" alt="Облокотившись на авто и лучезарно улыбаясь, девушка-фотограф общается с компанией детей."/>
+      <a href={movie.trailerLink} target="_blank" rel="noopener noreferrer">
+        <img
+          className="card__img"
+          src={isSavedMoviesLocation ? movie.image : makeImgURL(movie.image.url)}
+          title={movie.nameRU}
+          alt={movie.description}
+        />
+      </a>
     </li>
   );
 }

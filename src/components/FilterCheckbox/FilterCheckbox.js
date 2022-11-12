@@ -1,6 +1,6 @@
 import './FilterCheckbox.css';
 
-function FilterCheckbox() {
+function FilterCheckbox({ handleFilterToggle, isFilterOn }) {
 
   return (
     <div className="filter">
@@ -11,6 +11,8 @@ function FilterCheckbox() {
           className="filter__checkbox"
           type="checkbox"
           name="checkbox"
+          onChange={handleFilterToggle}
+          checked={isFilterOn}
         />
         <span className="filter__slider"></span>
         <span className="filter__title">Короткометражки</span>

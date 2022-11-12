@@ -1,27 +1,14 @@
 import './Register.css';
-import { React, useState } from 'react';
 import Form from '../Form/Form';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
-function Register({ onRegister }) {
-    const [userName, setUserName] = useState('');
-    const [userEmail, setUserEmail] = useState('');
-    const [password, setPassword] = useState('');
+function Register({ onSignup }) {
+  const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        onRegister(userName, userEmail, password);
-    };
-
-    const handleNameChange = (evt) => {
-        setUserName(evt.target.value);
-    };
-
-    const handleEmailChange = (evt) => {
-        setUserEmail(evt.target.value);
-    };
-
-    const handlePasswordChange = (evt) => {
-        setPassword(evt.target.value);
+        onSignup(values.name, values.email, values.password);
+        resetForm();
     };
 
     return (
@@ -32,50 +19,59 @@ function Register({ onRegister }) {
           titleText="Добро пожаловать!"
           redirectText="Уже зарегистрированы?"
           linkText="Войти"
-          onSubmit={handleSubmit}
+          handleSubmit={handleSubmit}
+          isValid={isValid}
         >
-          <span className="register__input-title">Имя</span>
+          <label className="register__input-title" htmlFor="name-input">Имя</label>
           <input
             id="name-input"
-            className="register__input"
+            className={`register__input ${errors.name && 'register__input_error'}`}
             type="text"
             name="name"
-            value={userName}
-            onChange={handleNameChange}
+            value={values.name || ''}
+            onChange={handleChange}
             minLength="2"
             maxLength="40"
             autoComplete="off"
-            placeholder='Введите имя'
+            placeholder="Введите имя"
+            pattern="^[A-Za-zА-Яа-яЁё /s -]+$"
             required
           />
-          <span className="register__input-title">E-mail</span>
+          <span className="register__input-error">{errors.name}</span>
+
+          <label className="register__input-title" htmlFor="email-input">E-mail</label>
           <input
-            id="login-input"
-            className="register__input"
+            id="email-input"
+            className={`register__input ${errors.email && 'register__input_error'}`}
             type="email"
-            name="login"
-            value={userEmail}
-            onChange={handleEmailChange}
+            name="email"
+            value={values.email || ''}
+            onChange={handleChange}
             minLength="2"
-            maxLength="40"
+            maxLength="30"
             autoComplete="off"
-            placeholder='info@ya.ru'
+            placeholder="info@ya.ru"
+            pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
             required
           />
-          <span className="register__input-title">Password</span>
+          <span className="register__input-error">{errors.email}</span>
+
+          <label className="register__input-title" htmlFor="password-input">Password</label>
           <input
             id="password-input"
-            className="register__input"
+            className={`register__input ${errors.password && 'register__input_error'}`}
             type="password"
             name="password"
-            value={password}
-            onChange={handlePasswordChange}
+            value={values.password || ''}
+            onChange={handleChange}
             minLength="4"
             maxLength="30"
             autoComplete="off"
             placeholder='****'
             required
           />
+          <span className="register__input-error">{errors.password}</span>
+
         </Form>
       </main>
     );

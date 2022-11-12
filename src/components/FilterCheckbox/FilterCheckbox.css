@@ -74,8 +74,10 @@
 
     .filter {
         position: absolute;
-        top: 37%;
-        left: 20%;
+        top: 75%;
+        /* left: 20%; */
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     .filter__decor-line {

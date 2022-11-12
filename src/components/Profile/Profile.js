@@ -1,75 +1,73 @@
 import './Profile.css';
-import { React, useState, useContext, useEffect } from 'react';
+import { React, useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-// import CurrentUserContext from '../contexts/CurrentUserContext';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 import Form from '../Form/Form';
 
-function Profile({ onEdit, onSignout, ...props }) {
+function Profile({ handleUpdateUser, onSignout }) {
     const isProfileLocation = useLocation().pathname === "/profile";
-    // const currentUser = useContext(CurrentUserContext);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-
-    function handleChangeName(evt) {
-      setName(evt.target.value);
-    }
-
-    function handleChangeEmail(evt) {
-        setEmail(evt.target.value);
-    }
+    const currentUser = useContext(CurrentUserContext);
+    const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
+    const isUserDataChange = currentUser.name !== values.name || currentUser.email !== values.email;
 
     function handleSubmit(evt) {
       evt.preventDefault();
 
-      props.onEditProfile({
-        name,
-        email,
-      });
+      if (isUserDataChange) {
+        handleUpdateUser(values);
+      }
     }
 
-    // useEffect(() => {
-    //     setName(currentUser.name);
-    //     setEmail(currentUser.about);
-    // }, [currentUser, props.isOpen]);
+    useEffect(() => {
+        if (currentUser) {
+          resetForm(currentUser, {}, true);
+        }
+    }, [currentUser, resetForm]);
 
     return (
       <main className="profile">
         <Form
           name="profile"
-          titleText="Привет, Виталий!"
+          titleText={`Привет, ${currentUser.name}!`}
           signoutBtnText="Выйти"
-          edittBtnText="Редактировать"
-          onEdit={handleSubmit}
+          editBtnText="Редактировать"
+          handleSubmit={handleSubmit}
           onSignout={onSignout}
           isProfileLocation={isProfileLocation}
+          isUserDataChange={isUserDataChange}
+          isValid={isValid}
         >
           <div className="profile__input-wrapper">
-            <span className="profile__input-title">Имя</span>
+          <label className="profile__input-title" htmlFor="name-input">Имя</label>
             <input
               id="name-input"
-              className="profile__input"
+              className={`profile__input ${errors.name && 'profile__input_error'}`}
               type="text"
               name="name"
-              value={name || 'Виталий'}
-              onChange={handleChangeName}
+              value={values.name || ''}
+              onChange={handleChange}
               minLength="2"
               maxLength="40"
               autoComplete="off"
+              pattern="^[A-Za-zА-Яа-яЁё /s -]+$"
               required
             />
           </div>
+
           <div className="profile__input-wrapper">
-            <span className="profile__input-title">E-mail</span>
+            <label className="profile__input-title" htmlFor="email-input">E-mail</label>
             <input
-              id="login-input"
-              className="profile__input"
+              id="email-input"
+              className={`profile__input ${errors.email && 'profile__input_error'}`}
               type="email"
-              name="login"
-              value={email || 'pochta@yandex.ru'}
-              onChange={handleChangeEmail}
+              name="email"
+              value={values.email || ''}
+              onChange={handleChange}
               minLength="2"
               maxLength="40"
               autoComplete="off"
+              pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
               required
             />
           </div>

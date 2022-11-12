@@ -67,6 +67,18 @@
     padding-right: 10px;
 }
 
+.profile__input_error {
+    color: #EE3465;
+}
+
+.profile__input_error:hover {
+    box-shadow: 0.1px 0.1px 3px #EE3465;
+}
+
+.profile__input_error:focus {
+    border: 1px solid #EE3465;
+}
+
 @media screen and (max-width: 767px) {
 
     .profile__input-wrapper {

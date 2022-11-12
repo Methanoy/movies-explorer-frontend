@@ -5,12 +5,20 @@
 .navigation__menu-list {
     display: flex;
     width: inherit;
-    justify-content: space-between;
     align-items: center;
     list-style: none;
     gap: 30px;
     margin: 0;
     padding: 0;
+}
+
+.navigation__menu-list_unlogged {
+    justify-content: flex-end;
+}
+
+.navigation__menu-list_logged {
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navigation__hide-item:first-of-type {
@@ -28,7 +36,6 @@
     text-decoration-line: none;
     color: #000;
     transition: all .3s linear 0s;
-    padding-bottom: 7px;
 }
 
 .navigation__link-text_unlogged {
@@ -39,6 +46,14 @@
 .navigation__link-text {
     font-size: 13px;
     line-height: 18px;
+}
+
+.navigation__link_active {
+    border-bottom: 2px solid #3456F3;
+}
+
+.navigation__link_active-account {
+    border: 2px solid #3456F3;
 }
 
 .navigation__link_account {
@@ -157,7 +172,7 @@
         height: 100vh;
         background-color: rgba(0, 0, 0, .3);
         transition: all .3s linear;
-        z-index: 2;
+        z-index: 11;
     }
 
     .navigation__hide-item:first-of-type {
@@ -180,15 +195,25 @@
         align-items: center;
         gap: 24px;
         padding: 0 0 350px;
+        border-bottom: none;
     }
 
     .navigation__menu-list_visible {
         display: flex;
-        justify-content: flex-start;
         row-gap: 24px;
         align-items: center;
         margin: 0;
+        padding: 0;
+    }
+
+    .navigation__menu-list_visible_logged {
+        justify-content: flex-start;
         padding: 159px 0 0;
+    }
+
+    .navigation__menu-list_visible_unlogged {
+        align-items: center;
+        padding: 0 0 0;
     }
 
     .navigation__menu-list_sidebar {
@@ -201,16 +226,8 @@
         background-color: #FAFAFA;
     }
 
-    .navigation__link {
-        padding-bottom: 7px;
-    }
-
     .navigation__link_active {
-        border-bottom: 2px solid #000;
-    }
-
-    .navigation__link_active-account {
-        border: 2px solid #3456F3;
+        padding-bottom: 7px;
     }
 
     .navigation__burger-btn {
@@ -238,7 +255,7 @@
     }
 
     .navigation__movies-link-container {
-        padding: 0 0 230px;
+        padding: 0 0 400px;
     }
 
     .navigation__link:hover {
@@ -252,7 +269,7 @@
     .navigation__link_signin-btn:hover {
         box-shadow: none;
     }
-    
+
     .navigation__link_signin-btn:active {
         box-shadow: none;
     }

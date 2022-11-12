@@ -20,16 +20,16 @@ function Form(props) {
         )}
         <h1 className={!props.isProfileLocation ? "form__greeting-title" : "form__greeting-title_profile"}>{props.titleText}</h1>
         {props.isProfileLocation ? (
-          <form className="form" onSubmit={props.onSubmit}>
+          <form className="form" onSubmit={props.handleSubmit} noValidate>
             {props.children}
             <ul className="form__btn-list">
               <li className="form__btn-item">
                 <button
-                className="form__edit-btn"
+                className={`form__edit-btn ${(props.isUserDataChange && props.isValid) && "form__edit-btn_visible"}`}
                 type="submit"
-                aria-label={props.edittBtnText}
+                aria-label={props.editBtnText}
               >
-                {props.edittBtnText}
+                {props.editBtnText}
               </button>
               </li>
               <li className="form__btn-item">
@@ -45,18 +45,19 @@ function Form(props) {
             </ul>
           </form>
         ) : (
-          <form className="form" onSubmit={props.onSubmit}>
+          <form className="form" onSubmit={props.handleSubmit} noValidate>
             {props.children}
             <button
-              className="form__submit-btn"
+              className={`form__submit-btn ${!props.isValid && 'form__submit-btn_locked'}`}
               type="submit"
               aria-label={props.buttonText}
+              disabled={!props.isValid}
             >
               {props.buttonText}
             </button>
             <p className="form__redirect-text">
               {props.redirectText}
-              <Link to="/signin" className="form__signin-link">
+              <Link to={props.isLoginLocation ? "/signup" : "/signin"} className="form__signin-link">
                 {props.linkText}
               </Link>
             </p>
